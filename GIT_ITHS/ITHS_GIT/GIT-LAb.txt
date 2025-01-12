@@ -1,0 +1,5 @@
+triksiga frågor:
+
+force push in -ignor
+
+pusha en branch i taget, att inte använda all flagor

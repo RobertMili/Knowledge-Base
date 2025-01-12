@@ -1,0 +1,2 @@
+05:00 förklarar A^1 och såna hierarki
+05:29 ångra saker genom commit

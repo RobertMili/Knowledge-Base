@@ -1,0 +1,133 @@
+git status
+cd GitLabb
+
+1.
+git init
+git branch -m main
+
+2.
+touch README.md
+echo "duck" >> README.md
+echo "moose" >> README.md
+echo "cat" >> README.md
+notepad README.md
+
+3.
+git add README.md
+git commit -m "Initial commit"
+
+4.
+git switch -c feature1
+
+5.
+notepad README.md
+echo "dog" >> README.md
+sed -i 's/moose/mouse/g' README.md
+
+notepad REAMDE.md
+git branch
+
+git add README.md
+git commit -a -m "Add dog and replace moouse to mouse"
+
+6.
+git checkout main
+
+sed -i 's/moose/mahmut/g' README.md
+git add README.md
+
+git commit -m "Change moose with mahmut"
+
+7.
+git merge feature1
+git commit -a -m "Merge branch feature1"
+
+8. 
+git tag extinct
+
+9.
+git reset HEAD~ --hard
+
+10.
+git branch feature2
+
+11.
+sed -i 's/^\w/\U&/' README.md
+git add README.md
+git status
+git commit -a -m "Fix uppercase"
+
+12.
+git checkout feature2
+
+git rebase main
+
+touch fix1.txt
+git add fix1.txt
+git commit -m "Add fix1."
+
+touch fix2.txt
+git add fix2.txt
+git commit -m "Add fix2"
+git log
+
+commit 0e2b2fae50c7bf86e13d6dfae20877ac8d6b2fd2 (HEAD -> feature2)
+Author: RobertMili <robertmilicevic3869@gmail.com>
+Date:   Mon Jan 16 17:17:22 2023 +0100
+
+    Add fix2.txt
+
+ls
+
+13.
+git checkout main
+
+14.
+git cherry-pick 0e2b
+
+15.
+notepad fix.txt
+git commit -a -m "Add all git commadns to fix2"
+
+16.
+git remote add origin git@github.com:RobertMili/GitLabb.git
+git puch -u origin main
+
+notepad fix2.txt
+git add fix2.txt
+git commit -m "Add commands for pushing to Github"
+git push
+
+17.
+touch .gitignore
+echo "*.jar" >> .gitignore
+echo "out/" >> .gitignore
+echo "target/" >> .gitignore
+echo "!target/*.html" >> .gitignore
+!target/ -> den har addat manuel
+
+git add .
+git commit -m "added .gitignore"
+
+18.
+git tag -a v1.0 -m "Version 1.0"
+19.
+git checkout main
+git rebase -i HEAD~2
+
+// Jag hade ändrad i andra rad pick med squash
+
+
+20.
+git branch feature3
+git checkout feature3
+noterpad fix2.txt
+git add .
+git commit -a -m "added git commands for step 18 and 19"
+
+
+
+
+
+
+

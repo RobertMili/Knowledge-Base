@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="DemoJpaBok:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>DemoJpaBok</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="DemoJpaBok-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="DemoJpaBok:war exploded" />
+    </root>
+  </artifact>
+</component>
