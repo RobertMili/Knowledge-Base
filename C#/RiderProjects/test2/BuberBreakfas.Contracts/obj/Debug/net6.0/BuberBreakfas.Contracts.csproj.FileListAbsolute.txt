@@ -1,0 +1,15 @@
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/bin/Debug/net6.0/BuberBreakfas.Contracts
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/bin/Debug/net6.0/BuberBreakfas.Contracts.deps.json
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/bin/Debug/net6.0/BuberBreakfas.Contracts.runtimeconfig.json
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/bin/Debug/net6.0/BuberBreakfas.Contracts.dll
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/bin/Debug/net6.0/BuberBreakfas.Contracts.pdb
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/obj/Debug/net6.0/BuberBreakfas.Contracts.csproj.AssemblyReference.cache
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/obj/Debug/net6.0/BuberBreakfas.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/obj/Debug/net6.0/BuberBreakfas.Contracts.AssemblyInfoInputs.cache
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/obj/Debug/net6.0/BuberBreakfas.Contracts.AssemblyInfo.cs
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/obj/Debug/net6.0/BuberBreakfas.Contracts.csproj.CoreCompileInputs.cache
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/obj/Debug/net6.0/BuberBreakfas.Contracts.dll
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/obj/Debug/net6.0/refint/BuberBreakfas.Contracts.dll
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/obj/Debug/net6.0/BuberBreakfas.Contracts.pdb
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/obj/Debug/net6.0/BuberBreakfas.Contracts.genruntimeconfig.cache
+/home/robert/RiderProjects/test2/BuberBreakfas.Contracts/obj/Debug/net6.0/ref/BuberBreakfas.Contracts.dll

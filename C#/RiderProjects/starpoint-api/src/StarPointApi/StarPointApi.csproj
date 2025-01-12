@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <RootNamespace>StarPointApi</RootNamespace>
+    <ApplicationInsightsResourceId>/subscriptions/e552509c-6e9f-488c-8b63-977cad176933/resourcegroups/boostappgroup/providers/microsoft.insights/components/starpoint</ApplicationInsightsResourceId>
+    <AssemblyName>StarPointApi</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CronJobs\**" />
+    <Content Remove="CronJobs\**" />
+    <EmbeddedResource Remove="CronJobs\**" />
+    <None Remove="CronJobs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.8.2" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.13.1" />
+    <PackageReference Include="BoostApp.ClassLibrary" Version="1.0.2" />
+    <PackageReference Include="BoostApp.Shared" Version="1.0.0" />
+    <PackageReference Include="Collector.Common.RestClient" Version="18.4.0" />
+    <PackageReference Include="Cronos" Version="0.7.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.13.1" />
+    <PackageReference Include="Microsoft.Extensions.Azure" Version="1.6.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+    <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.6" />
+    <PackageReference Include="Microsoft.Azure.KeyVault" Version="3.0.5" />
+    <PackageReference Include="Microsoft.Azure.Services.AppAuthentication" Version="1.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+</Project>
