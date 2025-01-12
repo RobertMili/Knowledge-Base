@@ -1,0 +1,154 @@
+# refresh tokens every hour in postman!
+# Run azurite!
+
+@wikiJwt = eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Imwzc1EtNTBjQ0g0eEJWWkxIVEd3blNSNzY4MCIsImtpZCI6Imwzc1EtNTBjQ0g0eEJWWkxIVEd3blNSNzY4MCJ9.eyJhdWQiOiI5ZWRmMzMxOS00NGY1LTRkODAtOTk3Mi1kYWYwZDk0YjYzNzkiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9mODJiMGZiNy0wMTAxLTQxMGQtOGU4Ny0wZWZhN2MxZDM5NzgvIiwiaWF0IjoxNjM4Mjc2ODkzLCJuYmYiOjE2MzgyNzY4OTMsImV4cCI6MTYzODI4MTU5NCwiYWNyIjoiMSIsImFpbyI6IkFVUUF1LzhUQUFBQURoNHhrV09lQjNDTytVTE9qVExLR3Fmb3ZmRlhXc2p3eHF0OFBWaWZYK2d0Nmk2Uk03NXlnZXB1MjUwem5YVEFVYUpkMFBmc0Y4TUNRcmNlTTdKbWVnPT0iLCJhbXIiOlsicHdkIiwibWZhIl0sImFwcGlkIjoiOWVkZjMzMTktNDRmNS00ZDgwLTk5NzItZGFmMGQ5NGI2Mzc5IiwiYXBwaWRhY3IiOiIwIiwiZmFtaWx5X25hbWUiOiJBeGVsc3NvbiIsImdpdmVuX25hbWUiOiJSb2JpbiIsImhhc2dyb3VwcyI6InRydWUiLCJpcGFkZHIiOiI4MC44Ny42My4zMyIsIm5hbWUiOiJSb2JpbiBBeGVsc3NvbiIsIm9pZCI6ImYwYjhkNjU5LTg4ZjMtNGI2OS05YjM0LTA1ZTc4ZDljNWE5MSIsIm9ucHJlbV9zaWQiOiJTLTEtNS0yMS0yNTAwODMzODUxLTM1MTE0OTc0NjUtMzE3MTQxODM0NS00ODA1MyIsInJoIjoiMC5BUWtBdHc4ci1BRUJEVUdPaHc3NmZCMDVlQmt6MzU3MVJJQk5tWExhOE5sTFkza0pBQmsuIiwic2NwIjoiVXNlci5SZWFkIiwic3ViIjoicXRtYWx5UzhGT1BRcHJxN0hUQ294WWZOU3pPNk94bzZvQVhSWUdqTTRXMCIsInRpZCI6ImY4MmIwZmI3LTAxMDEtNDEwZC04ZTg3LTBlZmE3YzFkMzk3OCIsInVuaXF1ZV9uYW1lIjoiUm9iaW4uQXhlbHNzb25Ac2lnbWEuc2UiLCJ1cG4iOiJSb2Jpbi5BeGVsc3NvbkBzaWdtYS5zZSIsInV0aSI6Il9GX0lZMTU3UmtxTWYwQjlkLWZVQUEiLCJ2ZXIiOiIxLjAifQ.g9Q0ycR7M-zgtPfNnROg7x5_OXg-O5KllIaEDIz-gav0xuC8yoD9VqgEYGIrAVHNe28IAC5eA_NjX5JmH0tSCLyH7eMNtuLMMNNWrzVxPv3Q802f-QAuC3BNq-ExIVr7xwbOHquZv3LTDxp0UMb57Ww7HyB-UeeE-OrtySORUdySSYW4oEEHNo0MKsE_UeEjDsY2ZfbeuE45ZezQqhvBfWU6bsliQvb6bAvRxDr1VZgjxUmlS-pW1isdr5Da37j0UKAl-OMarYsKHB-P0LyrgLmbeLr5XF74Oszoz8Jgt2UWOX_z_RjcMkPM5k5zBQgkMTgvY35o0XX1Zv3YCsMMFw
+
+@base=https://localhost:5001/
+#@base = https://starpoint.azurewebsites.net/
+@userId = f0b8d659-88f3-4b69-9b34-05e78d9c5a91
+@startDate = 2021-01-01
+@endDate = 2021-12-31
+@activity = sailing
+@group =
+#@base = https://localhost:5001/
+
+###
+GET {{base}}StarPoint/Me/TimeSeries/{{startDate}}
+?endDate={{endDate}}
+&timeFrame=Yearly
+&activity={{activity}}
+Authorization: Bearer {{wikiJwt}}
+###
+###
+GET {{base}}StarPoint/User/TimeSeries/{{startDate}}
+?userId={{userId}}
+&endDate={{endDate}}
+&timeFrame=Monthly
+&activity={{activity}}
+Authorization: Bearer {{wikiJwt}}
+###
+GET {{base}}starpoint/me/total/{{startDate}}
+?activity={{activity}}
+Authorization: Bearer {{wikiJwt}}
+###
+GET {{base}}starpoint/me/History/{{startDate}}
+?endDate={{endDate}}
+&activity={{activity}}
+Authorization: Bearer {{wikiJwt}}
+# no user found error!
+###
+GET {{base}}starpoint/User/Total/{{startDate}}
+?endDate={{endDate}}
+&userId={{userId}}
+&activity={{activity}}
+Authorization: Bearer {{wikiJwt}}
+###
+
+GET {{base}}StarPoint/User/History/{{startDate}}
+?userId={{userId}}
+&endDate={{endDate}}
+&activity={{activity}}
+Authorization: Bearer {{wikiJwt}}
+###
+GET {{base}}StarPoint/User/TimeSeries/{{startDate}}
+?userId={{userId}}
+&enddate={{endDate}}
+&timeframe=Yearly
+&activity={{activity}}
+Authorization: Bearer {{wikiJwt}}
+###
+
+POST {{base}}StarPoint/Users/Total
+Authorization: Bearer {{wikiJwt}}
+content-type: application/json
+
+{
+    "userIds": [
+        "{{userId}}",
+        "565e67b9-d5b7-4bf6-939e-dfbc6edaa61b",
+        "6f2d9069-7a8c-428c-b789-b436e47fff4d",
+        "181dab85-b373-4b84-981b-950fd1d5931d"
+    ],
+    "startDate": "{{startDate}}",
+    "endDate": "{{endDate}}",
+    "activity": "{{activity}}",
+    "group": "{{group}}"
+}
+
+###
+POST {{base}}StarPoint/Users/History
+Authorization: Bearer {{wikiJwt}}
+content-type: application/json
+
+{
+    "userIds": [
+        "{{userId}}",
+        "565e67b9-d5b7-4bf6-939e-dfbc6edaa61b",
+        "6f2d9069-7a8c-428c-b789-b436e47fff4d",
+        "181dab85-b373-4b84-981b-950fd1d5931d"
+    ],
+    "startDate": "{{startDate}}",
+    "endDate": "{{endDate}}",
+    "activity": "{{activity}}",
+    "group": "{{group}}"
+}
+
+#############
+### StarPointBackEnd
+#############
+PUT {{base}}StarPointBackEnd
+Authorization: Bearer {{wikiJwt}}
+content-type: application/json
+
+{
+    "userId": "{{userId}}",
+    "databaseId": "1111-1111-1111-1111",
+    "activity": "Sailing",
+    "description": "Strong Winds",
+    "starpoints": 111,
+    "startDate": "2021-10-01T08:00",
+    "endDate": "2021-10-01T20:00",
+}
+
+###
+
+POST {{base}}starpointbackend/starpoints HTTP/1.1
+Authorization: Bearer {{wikiJwt}}
+content-type: application/json
+
+{
+    "userId": "{{userId}}",
+    "activity": "swimming",
+    "description": "wet stuff",
+    "starpoints": 200
+}
+
+###
+
+POST {{base}}starpointbackend/starpoints HTTP/1.1
+Authorization: Bearer {{wikiJwt}}
+content-type: application/json
+
+{
+    "userId": "{{userId}}",
+    "activity": "sailing",
+    "description": "wet stuff",
+    "starpoints": 300
+}
+
+###
+
+POST {{base}}starpointbackend/starpoints HTTP/1.1
+Authorization: Bearer {{wikiJwt}}
+content-type: application/json
+
+{
+    "userId": "{{userId}}",
+    "activity": "Solarium",
+    "description": "sweet",
+    "starpoints": 200
+}
+
+###
+DELETE {{base}}/StarPointBackEnd/1111-1111-1111-1111
+?userId={{userId}}

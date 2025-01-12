@@ -1,0 +1,1303 @@
+param sites_step_api_production_name string = 'step-api-production'
+param serverfarms_ASP_boostappgroup_bc17_externalid string = '/subscriptions/562e0016-4fd3-4756-83aa-8596af5e90a4/resourceGroups/boostappgroup-nexer/providers/Microsoft.Web/serverfarms/ASP-boostappgroup-bc17'
+//make location from here param location string = resourceGroup().location
+
+
+resource sites_step_api_production_name_resource 'Microsoft.Web/sites@2023-01-01' = {
+  name: sites_step_api_production_name
+  location: 'North Europe'
+  tags: {
+    Production: ''
+  }
+  kind: 'app,linux,container'
+  properties: {
+    enabled: true
+    hostNameSslStates: [
+      {
+        name: '${sites_step_api_production_name}.azurewebsites.net'
+        sslState: 'Disabled'
+        hostType: 'Standard'
+      }
+      {
+        name: '${sites_step_api_production_name}.scm.azurewebsites.net'
+        sslState: 'Disabled'
+        hostType: 'Repository'
+      }
+    ]
+    serverFarmId: serverfarms_ASP_boostappgroup_bc17_externalid
+    reserved: true
+    isXenon: false
+    hyperV: false
+    vnetRouteAllEnabled: false
+    vnetImagePullEnabled: false
+    vnetContentShareEnabled: false
+    siteConfig: {
+      numberOfWorkers: 1
+      linuxFxVersion: 'DOCKER|boostappregistry.azurecr.io/boostapp_step:latest'
+      acrUseManagedIdentityCreds: false
+      alwaysOn: false
+      http20Enabled: false
+      functionAppScaleLimit: 0
+      minimumElasticInstanceCount: 0
+    }
+    scmSiteAlsoStopped: false
+    clientAffinityEnabled: false
+    clientCertEnabled: false
+    clientCertMode: 'Required'
+    hostNamesDisabled: false
+    customDomainVerificationId: '2D7F007DC0C43F4049915ADDEA50CFC13F03FAC0BBFFB3A6A1681907A505DD2B'
+    containerSize: 0
+    dailyMemoryTimeQuota: 0
+    httpsOnly: true
+    redundancyMode: 'None'
+    publicNetworkAccess: 'Enabled'
+    storageAccountRequired: false
+    keyVaultReferenceIdentity: 'SystemAssigned'
+  }
+}
+
+resource sites_step_api_production_name_ftp 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2023-01-01' = {
+  parent: sites_step_api_production_name_resource
+  name: 'ftp'
+  location: 'North Europe'
+  tags: {
+    Production: ''
+  }
+  properties: {
+    allow: true
+  }
+}
+
+resource sites_step_api_production_name_scm 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2023-01-01' = {
+  parent: sites_step_api_production_name_resource
+  name: 'scm'
+  location: 'North Europe'
+  tags: {
+    Production: ''
+  }
+  properties: {
+    allow: true
+  }
+}
+
+resource sites_step_api_production_name_web 'Microsoft.Web/sites/config@2023-01-01' = {
+  parent: sites_step_api_production_name_resource
+  name: 'web'
+  location: 'North Europe'
+  tags: {
+    Production: ''
+  }
+  properties: {
+    numberOfWorkers: 1
+    defaultDocuments: [
+      'Default.htm'
+      'Default.html'
+      'Default.asp'
+      'index.htm'
+      'index.html'
+      'iisstart.htm'
+      'default.aspx'
+      'index.php'
+      'hostingstart.html'
+    ]
+    netFrameworkVersion: 'v4.0'
+    linuxFxVersion: 'DOCKER|boostappregistry.azurecr.io/boostapp_step:latest'
+    requestTracingEnabled: false
+    remoteDebuggingEnabled: false
+    remoteDebuggingVersion: 'VS2019'
+    httpLoggingEnabled: false
+    acrUseManagedIdentityCreds: false
+    logsDirectorySizeLimit: 35
+    detailedErrorLoggingEnabled: false
+    publishingUsername: '$step-api-production'
+    scmType: 'VSTSRM'
+    use32BitWorkerProcess: true
+    webSocketsEnabled: false
+    alwaysOn: false
+    managedPipelineMode: 'Integrated'
+    virtualApplications: [
+      {
+        virtualPath: '/'
+        physicalPath: 'site\\wwwroot'
+        preloadEnabled: false
+      }
+    ]
+    loadBalancing: 'LeastRequests'
+    experiments: {
+      rampUpRules: []
+    }
+    autoHealEnabled: false
+    vnetRouteAllEnabled: false
+    vnetPrivatePortsCount: 0
+    publicNetworkAccess: 'Enabled'
+    localMySqlEnabled: false
+    ipSecurityRestrictions: [
+      {
+        ipAddress: 'Any'
+        action: 'Allow'
+        priority: 2147483647
+        name: 'Allow all'
+        description: 'Allow all access'
+      }
+    ]
+    scmIpSecurityRestrictions: [
+      {
+        ipAddress: 'Any'
+        action: 'Allow'
+        priority: 2147483647
+        name: 'Allow all'
+        description: 'Allow all access'
+      }
+    ]
+    scmIpSecurityRestrictionsUseMain: false
+    http20Enabled: false
+    minTlsVersion: '1.2'
+    scmMinTlsVersion: '1.2'
+    ftpsState: 'FtpsOnly'
+    preWarmedInstanceCount: 0
+    elasticWebAppScaleLimit: 0
+    functionsRuntimeScaleMonitoringEnabled: false
+    minimumElasticInstanceCount: 0
+    azureStorageAccounts: {}
+  }
+}
+
+resource sites_step_api_production_name_12551708621502683 'Microsoft.Web/sites/deployments@2023-01-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '12551708621502683'
+  location: 'North Europe'
+  properties: {
+    status: 4
+    author: 'Hosted Agent'
+    deployer: 'VSTS'
+    message: '{"type":"Deployment","buildId":"latest","releaseId":"1255","buildNumber":"latest","releaseName":"Release-226","collectionUrl":"https://dev.azure.com/SigmaOpenSource/","teamProject":"432cd301-d94b-4d6a-8498-1935ce21b152","buildProjectUrl":"https://dev.azure.com/SigmaOpenSource/432cd301-d94b-4d6a-8498-1935ce21b152","repositoryUrl":"","teamProjectName":"BoostApp","slotName":"production"}'
+    start_time: '2024-02-22T17:05:03.864027Z'
+    end_time: '2024-02-22T17:05:03.864027Z'
+    active: false
+  }
+}
+
+resource sites_step_api_production_name_12581708623018912 'Microsoft.Web/sites/deployments@2023-01-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '12581708623018912'
+  location: 'North Europe'
+  properties: {
+    status: 4
+    author: 'Robert Milicevic'
+    deployer: 'VSTS'
+    message: '{"type":"Deployment","commitId":"e272ab40220a2fbdd2996cfc9484f8f75ef9d633","buildId":"3754","releaseId":"1258","buildNumber":"20240221.2","releaseName":"Release-227","repoProvider":"TfsGit","repoName":"step-api","collectionUrl":"https://dev.azure.com/SigmaOpenSource/","teamProject":"432cd301-d94b-4d6a-8498-1935ce21b152","buildProjectUrl":"https://dev.azure.com/SigmaOpenSource/432cd301-d94b-4d6a-8498-1935ce21b152","repositoryUrl":"","branch":"master","teamProjectName":"BoostApp","slotName":"production"}'
+    start_time: '2024-02-22T17:30:19.2691941Z'
+    end_time: '2024-02-22T17:30:19.2691941Z'
+    active: false
+  }
+}
+
+resource sites_step_api_production_name_12591708623328526 'Microsoft.Web/sites/deployments@2023-01-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '12591708623328526'
+  location: 'North Europe'
+  properties: {
+    status: 4
+    author: 'Hosted Agent'
+    deployer: 'VSTS'
+    message: '{"type":"Deployment","buildId":"latest","releaseId":"1259","buildNumber":"latest","releaseName":"Release-228","collectionUrl":"https://dev.azure.com/SigmaOpenSource/","teamProject":"432cd301-d94b-4d6a-8498-1935ce21b152","buildProjectUrl":"https://dev.azure.com/SigmaOpenSource/432cd301-d94b-4d6a-8498-1935ce21b152","repositoryUrl":"","teamProjectName":"BoostApp","slotName":"production"}'
+    start_time: '2024-02-22T17:35:29.0407746Z'
+    end_time: '2024-02-22T17:35:29.0407746Z'
+    active: false
+  }
+}
+
+resource sites_step_api_production_name_12611708623704702 'Microsoft.Web/sites/deployments@2023-01-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '12611708623704702'
+  location: 'North Europe'
+  properties: {
+    status: 4
+    author: 'Hosted Agent'
+    deployer: 'VSTS'
+    message: '{"type":"Deployment","buildId":"latest","releaseId":"1261","buildNumber":"latest","releaseName":"Release-229","collectionUrl":"https://dev.azure.com/SigmaOpenSource/","teamProject":"432cd301-d94b-4d6a-8498-1935ce21b152","buildProjectUrl":"https://dev.azure.com/SigmaOpenSource/432cd301-d94b-4d6a-8498-1935ce21b152","repositoryUrl":"","teamProjectName":"BoostApp","slotName":"production"}'
+    start_time: '2024-02-22T17:41:44.8740527Z'
+    end_time: '2024-02-22T17:41:44.8740527Z'
+    active: false
+  }
+}
+
+resource sites_step_api_production_name_12621708624275488 'Microsoft.Web/sites/deployments@2023-01-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '12621708624275488'
+  location: 'North Europe'
+  properties: {
+    status: 4
+    author: 'Hosted Agent'
+    deployer: 'VSTS'
+    message: '{"type":"Deployment","buildId":"latest","releaseId":"1262","buildNumber":"latest","releaseName":"Release-230","collectionUrl":"https://dev.azure.com/SigmaOpenSource/","teamProject":"432cd301-d94b-4d6a-8498-1935ce21b152","buildProjectUrl":"https://dev.azure.com/SigmaOpenSource/432cd301-d94b-4d6a-8498-1935ce21b152","repositoryUrl":"","teamProjectName":"BoostApp","slotName":"production"}'
+    start_time: '2024-02-22T17:51:15.7701435Z'
+    end_time: '2024-02-22T17:51:15.7701435Z'
+    active: true
+  }
+}
+
+resource sites_step_api_production_name_sites_step_api_production_name_azurewebsites_net 'Microsoft.Web/sites/hostNameBindings@2023-01-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '${sites_step_api_production_name}.azurewebsites.net'
+  location: 'North Europe'
+  properties: {
+    siteName: 'step-api-production'
+    hostNameType: 'Verified'
+  }
+}
+
+resource sites_step_api_production_name_2024_03_31T09_04_30_5099340 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-03-31T09_04_30_5099340'
+}
+
+resource sites_step_api_production_name_2024_03_31T18_04_31_2912089 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-03-31T18_04_31_2912089'
+}
+
+resource sites_step_api_production_name_2024_04_01T09_04_32_6590065 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-01T09_04_32_6590065'
+}
+
+resource sites_step_api_production_name_2024_04_01T18_04_33_4503704 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-01T18_04_33_4503704'
+}
+
+resource sites_step_api_production_name_2024_04_02T09_04_34_8173232 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-02T09_04_34_8173232'
+}
+
+resource sites_step_api_production_name_2024_04_02T18_04_35_6057621 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-02T18_04_35_6057621'
+}
+
+resource sites_step_api_production_name_2024_04_03T09_04_36_9566832 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-03T09_04_36_9566832'
+}
+
+resource sites_step_api_production_name_2024_04_03T18_04_37_7292260 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-03T18_04_37_7292260'
+}
+
+resource sites_step_api_production_name_2024_04_04T09_04_39_0988825 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-04T09_04_39_0988825'
+}
+
+resource sites_step_api_production_name_2024_04_04T18_04_39_8861549 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-04T18_04_39_8861549'
+}
+
+resource sites_step_api_production_name_2024_04_05T09_04_41_2983517 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-05T09_04_41_2983517'
+}
+
+resource sites_step_api_production_name_2024_04_05T18_04_42_0760172 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-05T18_04_42_0760172'
+}
+
+resource sites_step_api_production_name_2024_04_06T09_04_43_4220678 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-06T09_04_43_4220678'
+}
+
+resource sites_step_api_production_name_2024_04_06T18_04_45_1003863 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-06T18_04_45_1003863'
+}
+
+resource sites_step_api_production_name_2024_04_07T09_04_45_5429570 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-07T09_04_45_5429570'
+}
+
+resource sites_step_api_production_name_2024_04_07T18_04_46_4669713 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-07T18_04_46_4669713'
+}
+
+resource sites_step_api_production_name_2024_04_08T09_04_47_7160313 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-08T09_04_47_7160313'
+}
+
+resource sites_step_api_production_name_2024_04_08T18_04_48_5963376 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-08T18_04_48_5963376'
+}
+
+resource sites_step_api_production_name_2024_04_09T09_04_49_8802209 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-09T09_04_49_8802209'
+}
+
+resource sites_step_api_production_name_2024_04_09T18_04_50_7019089 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-09T18_04_50_7019089'
+}
+
+resource sites_step_api_production_name_2024_04_10T09_04_52_0813844 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-10T09_04_52_0813844'
+}
+
+resource sites_step_api_production_name_2024_04_10T18_04_52_9189840 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-10T18_04_52_9189840'
+}
+
+resource sites_step_api_production_name_2024_04_11T06_04_53_9839328 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-11T06_04_53_9839328'
+}
+
+resource sites_step_api_production_name_2024_04_11T18_04_55_0807597 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-11T18_04_55_0807597'
+}
+
+resource sites_step_api_production_name_2024_04_12T03_04_55_8724930 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-12T03_04_55_8724930'
+}
+
+resource sites_step_api_production_name_2024_04_12T09_04_56_4548785 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-12T09_04_56_4548785'
+}
+
+resource sites_step_api_production_name_2024_04_12T18_04_57_2163597 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-12T18_04_57_2163597'
+}
+
+resource sites_step_api_production_name_2024_04_13T03_04_58_0209256 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-13T03_04_58_0209256'
+}
+
+resource sites_step_api_production_name_2024_04_13T09_04_58_6079716 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-13T09_04_58_6079716'
+}
+
+resource sites_step_api_production_name_2024_04_13T18_04_59_3715385 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-13T18_04_59_3715385'
+}
+
+resource sites_step_api_production_name_2024_04_14T03_05_00_1812232 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-14T03_05_00_1812232'
+}
+
+resource sites_step_api_production_name_2024_04_14T09_05_00_7410458 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-14T09_05_00_7410458'
+}
+
+resource sites_step_api_production_name_2024_04_14T18_05_02_4093156 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-14T18_05_02_4093156'
+}
+
+resource sites_step_api_production_name_2024_04_15T00_05_02_0193983 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-15T00_05_02_0193983'
+}
+
+resource sites_step_api_production_name_2024_04_15T03_05_02_3283723 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-15T03_05_02_3283723'
+}
+
+resource sites_step_api_production_name_2024_04_15T06_05_02_5480698 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-15T06_05_02_5480698'
+}
+
+resource sites_step_api_production_name_2024_04_15T09_05_02_8377221 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-15T09_05_02_8377221'
+}
+
+resource sites_step_api_production_name_2024_04_15T12_05_03_0717165 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-15T12_05_03_0717165'
+}
+
+resource sites_step_api_production_name_2024_04_15T15_05_03_3748460 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-15T15_05_03_3748460'
+}
+
+resource sites_step_api_production_name_2024_04_15T18_05_03_6101571 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-15T18_05_03_6101571'
+}
+
+resource sites_step_api_production_name_2024_04_16T00_23_58_0510917 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-16T00_23_58_0510917'
+}
+
+resource sites_step_api_production_name_2024_04_16T03_23_58_8064402 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-16T03_23_58_8064402'
+}
+
+resource sites_step_api_production_name_2024_04_16T06_23_59_7083820 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-16T06_23_59_7083820'
+}
+
+resource sites_step_api_production_name_2024_04_16T09_24_00_3905777 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-16T09_24_00_3905777'
+}
+
+resource sites_step_api_production_name_2024_04_16T12_24_01_2234141 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-16T12_24_01_2234141'
+}
+
+resource sites_step_api_production_name_2024_04_16T15_24_02_0063817 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-16T15_24_02_0063817'
+}
+
+resource sites_step_api_production_name_2024_04_16T18_24_02_9315157 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-16T18_24_02_9315157'
+}
+
+resource sites_step_api_production_name_2024_04_17T00_24_04_3832083 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-17T00_24_04_3832083'
+}
+
+resource sites_step_api_production_name_2024_04_17T03_24_05_1710978 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-17T03_24_05_1710978'
+}
+
+resource sites_step_api_production_name_2024_04_17T06_24_05_8665206 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-17T06_24_05_8665206'
+}
+
+resource sites_step_api_production_name_2024_04_17T09_24_06_6328991 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-17T09_24_06_6328991'
+}
+
+resource sites_step_api_production_name_2024_04_17T12_24_07_4395006 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-17T12_24_07_4395006'
+}
+
+resource sites_step_api_production_name_2024_04_17T15_24_08_2273909 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-17T15_24_08_2273909'
+}
+
+resource sites_step_api_production_name_2024_04_17T18_24_09_0754687 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-17T18_24_09_0754687'
+}
+
+resource sites_step_api_production_name_2024_04_18T00_24_10_6017119 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-18T00_24_10_6017119'
+}
+
+resource sites_step_api_production_name_2024_04_18T03_24_11_3627783 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-18T03_24_11_3627783'
+}
+
+resource sites_step_api_production_name_2024_04_18T06_24_12_1571693 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-18T06_24_12_1571693'
+}
+
+resource sites_step_api_production_name_2024_04_18T09_24_12_9882220 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-18T09_24_12_9882220'
+}
+
+resource sites_step_api_production_name_2024_04_18T12_24_13_8017710 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-18T12_24_13_8017710'
+}
+
+resource sites_step_api_production_name_2024_04_18T15_24_14_5764761 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-18T15_24_14_5764761'
+}
+
+resource sites_step_api_production_name_2024_04_18T18_24_15_3736373 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-18T18_24_15_3736373'
+}
+
+resource sites_step_api_production_name_2024_04_19T00_24_16_9479003 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-19T00_24_16_9479003'
+}
+
+resource sites_step_api_production_name_2024_04_19T03_24_17_8739945 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-19T03_24_17_8739945'
+}
+
+resource sites_step_api_production_name_2024_04_19T06_24_18_5559323 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-19T06_24_18_5559323'
+}
+
+resource sites_step_api_production_name_2024_04_19T09_24_19_3563398 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-19T09_24_19_3563398'
+}
+
+resource sites_step_api_production_name_2024_04_19T12_24_20_1483687 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-19T12_24_20_1483687'
+}
+
+resource sites_step_api_production_name_2024_04_19T15_24_20_9491251 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-19T15_24_20_9491251'
+}
+
+resource sites_step_api_production_name_2024_04_19T18_24_21_7692582 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-19T18_24_21_7692582'
+}
+
+resource sites_step_api_production_name_2024_04_20T00_24_23_3718804 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-20T00_24_23_3718804'
+}
+
+resource sites_step_api_production_name_2024_04_20T03_24_24_1639012 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-20T03_24_24_1639012'
+}
+
+resource sites_step_api_production_name_2024_04_20T06_24_25_0225059 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-20T06_24_25_0225059'
+}
+
+resource sites_step_api_production_name_2024_04_20T09_24_25_7598097 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-20T09_24_25_7598097'
+}
+
+resource sites_step_api_production_name_2024_04_20T12_24_26_5427639 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-20T12_24_26_5427639'
+}
+
+resource sites_step_api_production_name_2024_04_20T15_24_27_3643899 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-20T15_24_27_3643899'
+}
+
+resource sites_step_api_production_name_2024_04_20T18_24_28_1236354 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-20T18_24_28_1236354'
+}
+
+resource sites_step_api_production_name_2024_04_21T03_24_30_4838777 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-21T03_24_30_4838777'
+}
+
+resource sites_step_api_production_name_2024_04_21T06_24_31_3104806 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-21T06_24_31_3104806'
+}
+
+resource sites_step_api_production_name_2024_04_21T09_24_32_0885481 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-21T09_24_32_0885481'
+}
+
+resource sites_step_api_production_name_2024_04_21T12_24_32_8911593 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-21T12_24_32_8911593'
+}
+
+resource sites_step_api_production_name_2024_04_21T15_24_33_6656825 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-21T15_24_33_6656825'
+}
+
+resource sites_step_api_production_name_2024_04_21T18_24_34_4883751 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-21T18_24_34_4883751'
+}
+
+resource sites_step_api_production_name_2024_04_22T03_24_36_7890080 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-22T03_24_36_7890080'
+}
+
+resource sites_step_api_production_name_2024_04_22T06_24_37_5860293 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-22T06_24_37_5860293'
+}
+
+resource sites_step_api_production_name_2024_04_22T09_24_38_3836191 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-22T09_24_38_3836191'
+}
+
+resource sites_step_api_production_name_2024_04_22T12_24_39_1683572 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-22T12_24_39_1683572'
+}
+
+resource sites_step_api_production_name_2024_04_22T15_24_39_9474433 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-22T15_24_39_9474433'
+}
+
+resource sites_step_api_production_name_2024_04_22T18_24_40_7615149 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-22T18_24_40_7615149'
+}
+
+resource sites_step_api_production_name_2024_04_23T03_24_43_1046056 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-23T03_24_43_1046056'
+}
+
+resource sites_step_api_production_name_2024_04_23T06_24_44_0892966 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-23T06_24_44_0892966'
+}
+
+resource sites_step_api_production_name_2024_04_23T09_24_44_6882434 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-23T09_24_44_6882434'
+}
+
+resource sites_step_api_production_name_2024_04_23T12_24_45_4888377 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-23T12_24_45_4888377'
+}
+
+resource sites_step_api_production_name_2024_04_23T15_24_46_2978452 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-23T15_24_46_2978452'
+}
+
+resource sites_step_api_production_name_2024_04_23T18_24_47_0810743 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-23T18_24_47_0810743'
+}
+
+resource sites_step_api_production_name_2024_04_24T03_11_19_0166813 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-24T03_11_19_0166813'
+}
+
+resource sites_step_api_production_name_2024_04_24T06_11_19_6237760 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-24T06_11_19_6237760'
+}
+
+resource sites_step_api_production_name_2024_04_24T09_11_20_3901449 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-24T09_11_20_3901449'
+}
+
+resource sites_step_api_production_name_2024_04_24T12_11_21_1923990 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-24T12_11_21_1923990'
+}
+
+resource sites_step_api_production_name_2024_04_24T15_11_22_0434954 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-24T15_11_22_0434954'
+}
+
+resource sites_step_api_production_name_2024_04_24T18_11_22_7291884 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-24T18_11_22_7291884'
+}
+
+resource sites_step_api_production_name_2024_04_25T02_11_25_4020530 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T02_11_25_4020530'
+}
+
+resource sites_step_api_production_name_2024_04_25T03_11_25_7006898 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T03_11_25_7006898'
+}
+
+resource sites_step_api_production_name_2024_04_25T04_11_25_9209859 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T04_11_25_9209859'
+}
+
+resource sites_step_api_production_name_2024_04_25T05_11_26_1865699 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T05_11_26_1865699'
+}
+
+resource sites_step_api_production_name_2024_04_25T06_11_26_4319177 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T06_11_26_4319177'
+}
+
+resource sites_step_api_production_name_2024_04_25T07_11_26_7272338 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T07_11_26_7272338'
+}
+
+resource sites_step_api_production_name_2024_04_25T08_11_26_9622573 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T08_11_26_9622573'
+}
+
+resource sites_step_api_production_name_2024_04_25T09_11_27_2252200 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T09_11_27_2252200'
+}
+
+resource sites_step_api_production_name_2024_04_25T10_11_27_5001342 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T10_11_27_5001342'
+}
+
+resource sites_step_api_production_name_2024_04_25T11_11_27_7659602 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T11_11_27_7659602'
+}
+
+resource sites_step_api_production_name_2024_04_25T12_11_28_0309776 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T12_11_28_0309776'
+}
+
+resource sites_step_api_production_name_2024_04_25T13_11_28_2787851 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T13_11_28_2787851'
+}
+
+resource sites_step_api_production_name_2024_04_25T14_11_28_5398766 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T14_11_28_5398766'
+}
+
+resource sites_step_api_production_name_2024_04_25T15_11_28_8513288 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T15_11_28_8513288'
+}
+
+resource sites_step_api_production_name_2024_04_25T16_11_29_0637143 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T16_11_29_0637143'
+}
+
+resource sites_step_api_production_name_2024_04_25T17_11_29_3432746 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T17_11_29_3432746'
+}
+
+resource sites_step_api_production_name_2024_04_25T18_11_29_5824307 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T18_11_29_5824307'
+}
+
+resource sites_step_api_production_name_2024_04_25T19_11_29_8341502 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T19_11_29_8341502'
+}
+
+resource sites_step_api_production_name_2024_04_25T20_11_30_0872634 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T20_11_30_0872634'
+}
+
+resource sites_step_api_production_name_2024_04_25T21_11_30_3578812 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T21_11_30_3578812'
+}
+
+resource sites_step_api_production_name_2024_04_25T22_11_30_6039707 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T22_11_30_6039707'
+}
+
+resource sites_step_api_production_name_2024_04_25T23_11_30_9502513 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-25T23_11_30_9502513'
+}
+
+resource sites_step_api_production_name_2024_04_26T00_11_31_1345797 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T00_11_31_1345797'
+}
+
+resource sites_step_api_production_name_2024_04_26T01_11_31_3822769 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T01_11_31_3822769'
+}
+
+resource sites_step_api_production_name_2024_04_26T02_11_31_6513797 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T02_11_31_6513797'
+}
+
+resource sites_step_api_production_name_2024_04_26T03_11_31_9205510 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T03_11_31_9205510'
+}
+
+resource sites_step_api_production_name_2024_04_26T04_11_32_1596084 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T04_11_32_1596084'
+}
+
+resource sites_step_api_production_name_2024_04_26T05_11_32_4305333 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T05_11_32_4305333'
+}
+
+resource sites_step_api_production_name_2024_04_26T06_11_32_6815617 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T06_11_32_6815617'
+}
+
+resource sites_step_api_production_name_2024_04_26T07_11_32_9486498 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T07_11_32_9486498'
+}
+
+resource sites_step_api_production_name_2024_04_26T08_11_33_2208371 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T08_11_33_2208371'
+}
+
+resource sites_step_api_production_name_2024_04_26T09_11_33_4738345 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T09_11_33_4738345'
+}
+
+resource sites_step_api_production_name_2024_04_26T10_11_33_7588078 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T10_11_33_7588078'
+}
+
+resource sites_step_api_production_name_2024_04_26T11_11_33_9940157 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T11_11_33_9940157'
+}
+
+resource sites_step_api_production_name_2024_04_26T12_11_34_2481319 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T12_11_34_2481319'
+}
+
+resource sites_step_api_production_name_2024_04_26T13_11_34_5250070 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T13_11_34_5250070'
+}
+
+resource sites_step_api_production_name_2024_04_26T14_11_34_7671706 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T14_11_34_7671706'
+}
+
+resource sites_step_api_production_name_2024_04_26T15_11_35_0609043 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T15_11_35_0609043'
+}
+
+resource sites_step_api_production_name_2024_04_26T16_11_35_2941512 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T16_11_35_2941512'
+}
+
+resource sites_step_api_production_name_2024_04_26T17_11_35_5919403 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T17_11_35_5919403'
+}
+
+resource sites_step_api_production_name_2024_04_26T18_11_35_8229701 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T18_11_35_8229701'
+}
+
+resource sites_step_api_production_name_2024_04_26T19_11_36_1288468 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T19_11_36_1288468'
+}
+
+resource sites_step_api_production_name_2024_04_26T20_11_36_3498818 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T20_11_36_3498818'
+}
+
+resource sites_step_api_production_name_2024_04_26T21_11_36_5889573 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T21_11_36_5889573'
+}
+
+resource sites_step_api_production_name_2024_04_26T22_11_36_8567979 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T22_11_36_8567979'
+}
+
+resource sites_step_api_production_name_2024_04_26T23_11_37_1307413 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-26T23_11_37_1307413'
+}
+
+resource sites_step_api_production_name_2024_04_27T00_11_37_3578594 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T00_11_37_3578594'
+}
+
+resource sites_step_api_production_name_2024_04_27T01_11_37_6937418 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T01_11_37_6937418'
+}
+
+resource sites_step_api_production_name_2024_04_27T02_11_37_8949747 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T02_11_37_8949747'
+}
+
+resource sites_step_api_production_name_2024_04_27T03_11_38_1978848 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T03_11_38_1978848'
+}
+
+resource sites_step_api_production_name_2024_04_27T04_11_38_4219072 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T04_11_38_4219072'
+}
+
+resource sites_step_api_production_name_2024_04_27T05_11_38_6828944 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T05_11_38_6828944'
+}
+
+resource sites_step_api_production_name_2024_04_27T06_11_38_9400657 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T06_11_38_9400657'
+}
+
+resource sites_step_api_production_name_2024_04_27T07_11_39_1939859 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T07_11_39_1939859'
+}
+
+resource sites_step_api_production_name_2024_04_27T08_11_39_4561052 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T08_11_39_4561052'
+}
+
+resource sites_step_api_production_name_2024_04_27T09_11_39_7111014 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T09_11_39_7111014'
+}
+
+resource sites_step_api_production_name_2024_04_27T10_11_39_9771430 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T10_11_39_9771430'
+}
+
+resource sites_step_api_production_name_2024_04_27T11_11_40_2252071 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T11_11_40_2252071'
+}
+
+resource sites_step_api_production_name_2024_04_27T12_11_40_5071202 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T12_11_40_5071202'
+}
+
+resource sites_step_api_production_name_2024_04_27T13_11_40_7581311 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T13_11_40_7581311'
+}
+
+resource sites_step_api_production_name_2024_04_27T14_11_41_0091573 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T14_11_41_0091573'
+}
+
+resource sites_step_api_production_name_2024_04_27T15_11_41_3079779 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T15_11_41_3079779'
+}
+
+resource sites_step_api_production_name_2024_04_27T16_11_41_5331180 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T16_11_41_5331180'
+}
+
+resource sites_step_api_production_name_2024_04_27T17_11_41_8119349 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T17_11_41_8119349'
+}
+
+resource sites_step_api_production_name_2024_04_27T18_11_42_0639021 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T18_11_42_0639021'
+}
+
+resource sites_step_api_production_name_2024_04_27T19_11_42_3366712 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T19_11_42_3366712'
+}
+
+resource sites_step_api_production_name_2024_04_27T20_11_42_5676806 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T20_11_42_5676806'
+}
+
+resource sites_step_api_production_name_2024_04_27T21_11_42_8086563 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T21_11_42_8086563'
+}
+
+resource sites_step_api_production_name_2024_04_27T22_11_43_0735080 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T22_11_43_0735080'
+}
+
+resource sites_step_api_production_name_2024_04_27T23_11_43_3553392 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-27T23_11_43_3553392'
+}
+
+resource sites_step_api_production_name_2024_04_28T00_11_43_5983416 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T00_11_43_5983416'
+}
+
+resource sites_step_api_production_name_2024_04_28T01_11_43_8502766 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T01_11_43_8502766'
+}
+
+resource sites_step_api_production_name_2024_04_28T02_11_44_1311525 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T02_11_44_1311525'
+}
+
+resource sites_step_api_production_name_2024_04_28T03_11_44_4000185 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T03_11_44_4000185'
+}
+
+resource sites_step_api_production_name_2024_04_28T04_11_44_6222632 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T04_11_44_6222632'
+}
+
+resource sites_step_api_production_name_2024_04_28T05_11_44_9090429 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T05_11_44_9090429'
+}
+
+resource sites_step_api_production_name_2024_04_28T06_11_45_1350657 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T06_11_45_1350657'
+}
+
+resource sites_step_api_production_name_2024_04_28T07_11_45_4378840 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T07_11_45_4378840'
+}
+
+resource sites_step_api_production_name_2024_04_28T08_11_45_6619199 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T08_11_45_6619199'
+}
+
+resource sites_step_api_production_name_2024_04_28T09_11_45_9218982 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T09_11_45_9218982'
+}
+
+resource sites_step_api_production_name_2024_04_28T10_11_46_2156743 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T10_11_46_2156743'
+}
+
+resource sites_step_api_production_name_2024_04_28T11_11_46_4598691 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T11_11_46_4598691'
+}
+
+resource sites_step_api_production_name_2024_04_28T12_11_46_6929200 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T12_11_46_6929200'
+}
+
+resource sites_step_api_production_name_2024_04_28T13_11_46_9630285 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T13_11_46_9630285'
+}
+
+resource sites_step_api_production_name_2024_04_28T14_11_47_2143399 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T14_11_47_2143399'
+}
+
+resource sites_step_api_production_name_2024_04_28T15_11_47_5271077 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T15_11_47_5271077'
+}
+
+resource sites_step_api_production_name_2024_04_28T16_11_47_7422778 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T16_11_47_7422778'
+}
+
+resource sites_step_api_production_name_2024_04_28T17_11_48_0321340 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T17_11_48_0321340'
+}
+
+resource sites_step_api_production_name_2024_04_28T18_11_48_2730775 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T18_11_48_2730775'
+}
+
+resource sites_step_api_production_name_2024_04_28T19_11_48_5818199 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T19_11_48_5818199'
+}
+
+resource sites_step_api_production_name_2024_04_28T20_11_48_7970523 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T20_11_48_7970523'
+}
+
+resource sites_step_api_production_name_2024_04_28T21_11_49_0420761 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T21_11_49_0420761'
+}
+
+resource sites_step_api_production_name_2024_04_28T22_11_49_3081759 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T22_11_49_3081759'
+}
+
+resource sites_step_api_production_name_2024_04_28T23_11_49_6071105 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-28T23_11_49_6071105'
+}
+
+resource sites_step_api_production_name_2024_04_29T00_11_49_8123987 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T00_11_49_8123987'
+}
+
+resource sites_step_api_production_name_2024_04_29T01_11_50_0752866 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T01_11_50_0752866'
+}
+
+resource sites_step_api_production_name_2024_04_29T02_11_50_3294193 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T02_11_50_3294193'
+}
+
+resource sites_step_api_production_name_2024_04_29T03_11_50_5808941 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T03_11_50_5808941'
+}
+
+resource sites_step_api_production_name_2024_04_29T04_11_50_8407771 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T04_11_50_8407771'
+}
+
+resource sites_step_api_production_name_2024_04_29T05_11_51_1352312 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T05_11_51_1352312'
+}
+
+resource sites_step_api_production_name_2024_04_29T06_11_51_3787824 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T06_11_51_3787824'
+}
+
+resource sites_step_api_production_name_2024_04_29T07_11_51_7063735 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T07_11_51_7063735'
+}
+
+resource sites_step_api_production_name_2024_04_29T08_11_51_9384080 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T08_11_51_9384080'
+}
+
+resource sites_step_api_production_name_2024_04_29T09_11_52_1662446 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T09_11_52_1662446'
+}
+
+resource sites_step_api_production_name_2024_04_29T10_11_52_4262032 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T10_11_52_4262032'
+}
+
+resource sites_step_api_production_name_2024_04_29T11_11_52_7677588 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T11_11_52_7677588'
+}
+
+resource sites_step_api_production_name_2024_04_29T12_11_52_9612436 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T12_11_52_9612436'
+}
+
+resource sites_step_api_production_name_2024_04_29T13_11_53_2173569 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T13_11_53_2173569'
+}
+
+resource sites_step_api_production_name_2024_04_29T14_11_53_4844567 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T14_11_53_4844567'
+}
+
+resource sites_step_api_production_name_2024_04_29T15_11_53_7764545 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T15_11_53_7764545'
+}
+
+resource sites_step_api_production_name_2024_04_29T16_11_54_0117271 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T16_11_54_0117271'
+}
+
+resource sites_step_api_production_name_2024_04_29T17_11_54_2573788 'Microsoft.Web/sites/snapshots@2015-08-01' = {
+  parent: sites_step_api_production_name_resource
+  name: '2024-04-29T17_11_54_2573788'
+}

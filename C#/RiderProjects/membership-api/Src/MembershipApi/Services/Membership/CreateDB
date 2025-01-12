@@ -1,0 +1,13 @@
+CREATE TABLE [team] 
+  ( 
+     id   INT NOT NULL IDENTITY(1, 1) PRIMARY KEY, 
+     name NVARCHAR(50) NOT NULL, 
+  ); 
+
+CREATE TABLE [userteam] 
+  ( 
+     userid    NVARCHAR(255) NOT NULL, 
+     teamid INT NOT NULL 
+     CONSTRAINT uc_userteam UNIQUE(userid, teamid) 
+     CONSTRAINT fk_userteam_team FOREIGN KEY(teamid) REFERENCES team(id) 
+  ); 
