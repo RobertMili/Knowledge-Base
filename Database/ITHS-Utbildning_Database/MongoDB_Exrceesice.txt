@@ -1,0 +1,219 @@
+show dps
+use sampleDatabase
+
+// show the colections in a database
+show collections
+
+db.dropAllRoles()
+
+//creating a new databse
+use newDB
+
+show dbs
+// to show which database we are currenyly in
+db
+
+// to create collections
+db.createCollection('clients')
+
+// insert a document
+db.clients.insert({
+    id:0,
+    comapny: "lasosta",
+    address: "23 lost st NYC",
+    pverdie_invocies: 24,
+    products: ['coffe', 'sugar'],
+    data : Date(),
+    contacs : {
+        name: "Jim Neil",
+        position: "owner",
+        phone: 5550011
+    },
+})
+
+//to query tha data
+db.clients.find()
+
+//To delete a document, best is to use a ID in braces db.clients.remove(id:0)
+db.clients.remove()
+
+db.clients.insertMany([
+{
+   id:0,
+    comapny: "lasosta",
+    address: "23 lost st NYC",
+    pverdie_invocies: 24,
+    products: ['coffe', 'sugar'],
+    data : Date(),
+    contacs : {
+        name: "Jim Neil",
+        position: "owner",
+        phone: 5550011
+    },
+       id:1,
+    comapny: "test",
+    address: "23 lost st NYC",
+    pverdie_invocies: 11,
+    products: ['coffe', 'sugar'],
+    data : Date(),
+    contacs : {
+        name: "Jim Neil",
+        position: "owner",
+        phone: 5550011
+    },
+}])
+
+show dbs
+
+db.clients.find()
+
+// choose a document based ona criteria
+// simeler to SQL
+db.clients.find({pverdie_invocies:11})
+
+// sorting by  ascending or descnding order
+// sort (asceding 1 - descending -1)
+db.clients.find().sort({id:1})
+
+//Updating
+db.clients.update({id:1},
+{
+    $set:{
+    pverdie_invocies: 40,
+    import: "James Co.Ltd",
+    }
+}
+)
+db.clients.find()
+
+// Incrementing, if you wanna decrement just put minus before number ex: -1
+db.clients.update({id:1}, {$inc: {pverdie_invocies:1}})
+db.clients.find()
+
+//renamaing
+db.clients.update({id:1}, {$rename: {comapny: 'legal_name'}})
+db.clients.find()
+
+//uppdate array in 0
+db.clients.update({id:1},
+    {
+        $set : {
+        products:['sugar','coffe'],
+        }
+    }
+)
+db.authors.find()
+
+db.authors.find()
+db.clients.find()
+db.authors.insertOne( { author: "Tolkien", birth: 1892 ,books: [ "Sagan om ringen", "Sagan om de två tvornen", "Sagan om konungens återkomst"]})
+
+use newDB
+
+db.authors.find()
+db.authors.updateMany(
+    {},
+    { $set: {
+        death: [1977]
+    }}
+)
+
+db.authors.updateOne(
+    {author: "August Strindberg"},
+    {
+    $set: {
+        death: 1900
+    }
+    }
+)
+db.authors.updateOne(
+    {author: "Astrid Lindgre"},
+    {
+    $set: {
+        death: 1977
+    }
+    }
+)
+db.authors.updateOne(
+    {author: "Robert Milicevic"},
+    {
+    $set: {
+        death: false
+    }
+    }
+)
+// Räkna hur många förfatade dog efter 1950
+db.authors.find(
+    { death: { $gte: 1950}}
+)
+db.authors.find()
+// Uppdatera Astrid Lindgern så att hon har några fler böcker.
+db.authors.updateOne(
+    {author: "Astrid Lindgre"},
+    {
+    $set: {
+    books: [
+    "Sagan om ringen",
+    "Sagan om de två tornen",
+    "Sagan om konungens återkomst",
+    "En ny book"]
+    }
+    }
+  )
+
+db.authors.remove({author:"Astird Lindgre"})
+
+db.authors.insertMany( [
+{
+    author: "Vanja Maric",
+    birth: 1997,
+    books: [
+    "Test1",
+    "Test2",
+    "Test3"
+    ]
+ },
+ {
+    author: "Alma Tvrtkovic",
+    birth: 1988,
+    books: [
+    "Alma Tvrtkovic book1",
+    "Alma Tvrtkovic book2",
+    "Alma Tvrtkovic book3"   ]
+ }
+ ]
+)
+db.authors.insertMany([
+{
+    author: "Astrid Lindgre",
+    birth: 1907,
+    books: [
+    "Astrid Lingren book1",
+    "Astrid Lindren book2"]
+}])
+db.authors.find()
+// Visa en specifik författare
+db.authors.find({ author: "Astrid Lindgre"
+})
+
+// visa alla författare efter ett visst årtal
+db.authors.find({ birth: {$gte:1900}})
+
+// ta bort specifik författare
+db.authors.deleteOne( { author: "Astrid Lindgre"})
+
+// Lägg till wrr nytt field/vialue till en specifik författare t ex vilket land författaren är född i
+db.authors.updateOne(
+{ author: "Astrid Lindgre"},
+{ $set: {
+landIsBorn: "Sverige"}
+}
+)
+db.authors.find()
+
+db.createCollection("ArtistAlbum")
+show collections
+
+
+// Ta bort with index number
+db.authors.deleteOne( {_id: ObjectId( "6386487b59cf365e68b3989c" )})

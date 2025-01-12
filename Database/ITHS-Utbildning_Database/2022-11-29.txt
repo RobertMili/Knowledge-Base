@@ -1,0 +1,38 @@
+{
+name: "al",
+age:  18,
+status: "D",
+groups: ["politics", "news" ] -- This is a array
+}
+
+
+MongodDb lägger automatisk id på _id
+
+Ska göra i mongo shell (terminal)
+Vad är en collection?
+vad är ett document?
+Skilland i datastruktur mod SQL dvs man behöver inte ha en enhetlig struktur som i SQL
+med tabeller och kolumner.
+
+- Skapar en ny Collection för movies 
+db.movies.insertOne( {
+	moive: "Den sista färden",
+	year: 1972,
+	actors: ["Burt Reynolds", "John Voight"],
+	director: "John Boorman"	
+	}
+ )
+
+db.movies.find(
+	{
+	actors:"Burt reynolds 
+	}
+)
+
+db.movies.updateOne(
+	{ movie: "Den sista färden" },
+	{ $set: { music: "Eric Weissberg" } } 
+)
+	
+
+db.movirs.find ({})

@@ -1,0 +1,155 @@
+
+use Labb2
+db.createCollection("Labb2")
+
+show dbs
+
+use Labb2
+
+
+db.Labb2.insert( {
+    _id:0,
+    name: "Pannkakor",
+    tillagningstid: 30,
+    kategori: "dessert",
+    ingredienser: [
+    "2 1/2 dl vetemjöl",
+    "1/2 salt",
+     "6 dl mjölk",
+     "3 ägg",
+     "smör"]
+})
+
+
+
+db.Labb2.insert( {
+    _id:1,
+    name: "Pastasoppa med kryddig korv och bönor",
+    tillagningstid: 30,
+    kategori: "kött",
+    ingredienser: [
+        " 1 hackad rödlök",
+        " 100 g nötfärs",
+        " ½ msk smör eller olja ",
+        " 5 dl köttbuljong ",
+        " 1 dl passerade tomater ",
+        " 1 msk chilisås ",
+        " 2 dl pastaskruvar ",
+        " 115 g kokta blandade bönor, 115 g ",
+        " 80 g skivade kryddiga korvar ",
+        " 1 msk hackad färsk timjan ",
+        " 1 dl gröna ärter "
+    ]
+})
+
+db.Labb2.deleteOne( {_id: ObjectId("638728440478dc5c40bc6f5e")})
+
+db.Labb2.insert( {
+    _id: 2,
+    name: "Kryddig korv stroganoff på kycklingkorv",
+    tillagningstid: 40,
+    kategori: "kykling",
+    ingredienser: [
+        " 400 g falukorv, på kyckling även kallad middagskorv ",
+        " 2 msk smör ",
+        " salt och peppar ",
+        " 2 gula lökar ",
+        " 2 röda paprikor ",
+        " 3 msk tomatpuré ",
+        " 1 msk sambal oelek ",
+        " ¾ msk rökt paprikapulver eller vanligt paprikapulver ",
+        " ½ dl vatten ",
+        " 1 kycklingbuljongtärning ",
+        " 3 dl matlagningsgrädde ",
+        " 2 dl crème fraiche "
+    ]
+})
+
+db.Labb2.insertOne( {
+    _id: 3,
+    name: "Lättbakad kavring ",
+    tillagningstid: 75,
+    kategori: " fisk ",
+    ingredienser: [
+    " 9 dl rågsikt ",
+    " 3 dl vetemjöl ",
+    " 2 msk bikarbonat ",
+    " 1 tsk salt ",
+    " 3½ dl mörk sirap ",
+    " 6 dl filmjölk "
+    ]
+})
+
+db.Labb2.insertMany( [
+   {_id: 4,
+   name: "Hallonbubbel",
+   tillagningstid: 15,
+   kategori: "dryck",
+   ingredienser: [
+   " 125 g hallon ",
+   " 1½ dl vatten ",
+    " 1½ dl strösocker ",
+     " 1 flaska mousserande vin, 75 cl "] },
+    {
+    _id: 5,
+    name: "Chipsdip med färskost och stenbitsrom ",
+    tillagningstid: 15 ,
+    kategori: "vegetariskt",
+    ingredienser: [
+    " 200 g naturell philadelphia färskost ",
+    " 75 g röd stenbitsrom ",
+    " 150 g räfflade potatischips med dillsmak ",
+    " ½ finhackad rödlök ",
+    " ½ dl hackad gräslök ",
+            ]
+        }
+    ]
+)
+// Visal alla recept
+db.Labb2.find()
+
+// ta bort
+db.Labb2.deleteOne({_id:3})
+
+// som uppdaterar ett recept bli Dryck istället dryc ( småp bokstaven)
+db.Labb2.updateOne(
+    {_id:4},
+    { $set: { kategori: "Dryck"}}
+)
+
+// Räkna hur många recept finns
+db.Labb2.countDocuments()
+
+// Sökning specfikt recept
+db.Labb2.find( {name: "Pannkakor" })
+
+// uppdate en för att visa att alla document inte böhver följa samma struktru (skillnader SQL)
+db.Labb2.updateOne(
+    {_id: 5},
+    { $set: {
+        gluten: false
+    }}
+)
+db.Labb2.find()
+
+// Sorting
+db.Labb2.find().sort( {_id: 1})
+
+// VG
+
+
+db.Labb2.updateMany(
+    {},
+    { $set: { favorit: false }}
+)
+
+db.Labb2.updateOne(
+    {_id:0},
+    {$set: { favorit: true }}
+)
+
+db.Labb2.countDocuments( {favorit: true })
+db.Labb2.countDocuments( {favorit: { $lte: false }})
+
+db.Labb2.find( { favorit: true })
+db.Labb2.find( { favorit: false })

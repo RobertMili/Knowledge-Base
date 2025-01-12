@@ -1,0 +1,102 @@
+CREATE DATABASE demo_dag_2022_11_18_exercise;
+
+CREATE TABLE kategori_
+(
+    kategoriId   INT NOT NULL AUTO_INCREMENT,
+    kategoriNamn VARCHAR(50),
+    PRIMARY KEY (kategoriId)
+);
+CREATE TABLE bok_
+(
+    bokId         INT NOT NULL AUTO_INCREMENT,
+    bokTitel      VARCHAR(50),
+    bokForfattare VARCHAR(50),
+    bokBeskrivn   VARCHAR(50),
+    bokIsbn       VARCHAR(50),
+    bokPris       VARCHAR(50),
+    PRIMARY KEY (bokID)
+);
+CREATE TABLE bokKategori_
+(
+    bokKategoriID  INT NOT NULL AUTO_INCREMENT,
+    bokKategoriBid INT,
+    bokKategoriKid INT,
+    PRIMARY KEY (bokKategoriID),
+    FOREIGN KEY (bokKategoriBid) REFERENCES bok_ (bokID),
+    FOREIGN KEY (bokKategoriKid) REFERENCES kategori (kategoriId)
+);
+-- Fyll tabellerna med lite data
+INSERT INTO kategori_(kategoriNamn)
+VALUES ('Roman'),
+       ('Barnbok');
+
+-- Lägg till en ny kategori
+INSERT INTO kategori_ (kategoriNamn)
+VALUES ('Sci-fi');
+
+INSERT INTO bok_ (bokTitel, bokForfattare, bokIsbn, bokPris)
+VALUES ('Röda rummet', 'Strinberg, August', '12345', '120'),
+       ('Vi på Saltkråkan', 'Lindgre Astrid', '12345', '170'),
+       ('Pippi på de sju haven', 'Lindgren, Astrid', '12345', '130');
+
+SELECT *
+FROM bok_;
+
+DROP TABLE bok_;
+DROP TABLE kategori_;
+DROP TABLE bokkategori_;
+
+-- Lägger till en ny bok
+INSERT INTO bok_ (bokTitel, bokForfattare, bokIsbn, bokPris)
+VALUES ('Jazz i Göteborg', 'Johanson, Rude', '12348', '140');
+
+INSERT INTO bokkategori_(bokKategoriBid, bokKategoriKid)
+VALUES (1, 1); -- Röda rummmet, Roman
+INSERT INTO bokkategori_(bokKategoriBid, bokKategoriKid)
+VALUES (2, 1); -- Vi på saltkråkan, ROmna
+INSERT INTO bokkategori_(bokKategoriBid, bokKategoriKid)
+VALUES (2,2); -- Vi på saltkråkan, Barnbok
+
+-- Lägger till en koppling mellan Pippe p å de sju haven och barnbok
+INSERT INTO bokkategori_(bokKategoriBid, bokKategoriKid) VALUES (3,2);
+
+-- Join innter join mellan bok och kategori
+SELECT bok_.bokTitel, bok_.bokForfattare, kategori_.kategoriNamn
+FROM kategori_
+INNER JOIN bokKategori_ ON kategori_.kategoriId = bokKategori_.bokKategoriKid
+INNER JOIN bok_ ON bokKategori_.bokKategoriBid = bok_.bokId;
+
+-- Left join med många till många(lite lurigt)
+SELECT bok_.bokTitel, bok_.bokForfattare, kategori_.kategoriNamn
+FROM kategori_
+LEFT JOIN bokKategori_ ON kategori_.kategoriId = bokKategori_.bokKategoriKid
+LEFT JOIN bok_ ON bokKategori_.bokKategoriBid = bok_.bokId;
+
+-- Right jooin med bok som visar böcker även dem somm inte har någon koppling
+SELECT bok_.bokTitel, bok_.bokForfattare, kategori_.kategoriNamn
+FROM kategori_
+RIGHT JOIN bokKategori_ ON kategori_.kategoriId = bokKategori_.bokKategoriKid
+RIGHT JOIN bok_ ON bokKategori_.bokKategoriBid = bok_.bokId;
+
+SELECT * FROM kategori_;
+SELECT * from bok_;
+SELECT * FROM bokKategori_;
+
+-- Hämtar medelvärdet för böckernas pris
+SELECT AVG(bokPris) FROM bok_;
+
+-- Hämtar de böcker som kostar mer än medelvärdet för böckernas pris
+SELECT bokTitel, bokPris FROM bok_
+WHERE bokPris > (SELECT AVG(bokPris) FROM bok_);
+
+-- Räknar antal böcker i tabellen
+SELECT count(bokID) AS bokAntal from bok_;
+
+-- Visar priset för den bok som kostar mest
+SELECT MAX(bokPris) as hogstaPris From bok_;
+
+-- Visar priset för den bok som kostar minst
+SELECT MIN(bokPris) AS minstaPris FROM bok_;
+
+-- Visar den total summan för all böcker
+SELECT SUM(bokPris) AS totalPris From bok_;

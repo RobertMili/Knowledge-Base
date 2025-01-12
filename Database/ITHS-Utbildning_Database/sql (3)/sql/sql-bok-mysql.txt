@@ -1,0 +1,83 @@
+-- Bok (version 1)
+CREATE TABLE bok(
+	bokId INT NOT NULL AUTO_INCREMENT,
+	bokTitel VARCHAR(50),
+	bokForfattare VARCHAR(50),
+	bokBeskrivn VARCHAR(50),
+	bokIsbn VARCHAR(50),
+	bokPris INT,
+	PRIMARY KEY (bokId)
+);
+
+-- Fyll tabellen med lite data
+INSERT INTO bok (bokTitel,bokForfattare,bokIsbn,bokPris) VALUES('Röda rummet','Strindberg, August','12345','120');
+ 
+SELECT * FROM bok;
+
+
+-- Bok och kategori (version 2)
+CREATE TABLE kategori(
+	kategoriId INT NOT NULL AUTO_INCREMENT,
+	kategoriNamn VARCHAR(50),
+	PRIMARY KEY (kategoriId)
+);
+CREATE TABLE bok(
+	bokId INT NOT NULL AUTO_INCREMENT,
+	bokTitel VARCHAR(50),
+	bokForfattare VARCHAR(50),
+	bokBeskrivn VARCHAR(50),
+	bokIsbn VARCHAR(50),
+	bokPris INT,
+    bokKategoriId INT,
+	PRIMARY KEY (bokId),
+    FOREIGN KEY (bokKategoriId) REFERENCES kategori(kategoriId)
+);
+
+-- Fyll tabellerna med lite data
+INSERT INTO kategori(kategoriNamn) VALUES('Roman');
+
+INSERT INTO bok (bokTitel,bokForfattare,bokIsbn,bokPris,bokKategoriId) VALUES('Röda rummet','Strindberg, August','12345','120',1);
+ 
+SELECT * FROM kategori 
+INNER JOIN bok ON kategori.kategoriId = bok.bokKategoriId;
+
+
+-- Bok, kategori och bokKategori (version 3)
+CREATE TABLE kategori(
+	kategoriId INT NOT NULL AUTO_INCREMENT,
+	kategoriNamn VARCHAR(50),
+	PRIMARY KEY (kategoriId)
+);
+CREATE TABLE bok(
+	bokId INT NOT NULL AUTO_INCREMENT,
+	bokTitel VARCHAR(50),
+	bokForfattare VARCHAR(50),
+	bokBeskrivn VARCHAR(50), 
+	bokIsbn VARCHAR(50),
+	bokPris INT,
+	PRIMARY KEY (bokId)
+);
+CREATE TABLE bokKategori(
+	bokKategoriId INT NOT NULL AUTO_INCREMENT,
+	bokKategoriBid INT,
+	bokKategoriKid INT,
+	PRIMARY KEY (bokKategoriId),
+    	FOREIGN KEY (bokKategoriBid) REFERENCES bok(bokId),
+	FOREIGN KEY (bokKategoriKid) REFERENCES kategori(kategoriId)
+);
+
+-- Fyll tabellerna med lite data
+INSERT INTO kategori(kategoriNamn) VALUES('Roman');
+
+INSERT INTO bok (bokTitel,bokForfattare,bokIsbn,bokPris) VALUES('Röda rummet','Strindberg, August','12345','120');
+
+INSERT INTO bokKategori (bokKategoriBid,bokKategoriKid) VALUES(1,1);
+
+SELECT bok.bokTitel, kategori.kategoriNamn
+FROM kategori INNER JOIN bokKategori 
+ON kategori.kategoriId = bokKategori.bokKategoriKid
+INNER JOIN bok 
+ON bokKategori.bokKategoriBid = bok.bokId;
+
+
+

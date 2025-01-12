@@ -1,0 +1,73 @@
+CREATE TABLE bok(
+	bokId INT NOT NULL AUTO_INCREMENT,
+	bokTitel VARCHAR(50),
+	bokForfattare VARCHAR(50),
+	bokBeskrivn VARCHAR(50),
+	bokIsbn VARCHAR(50),
+	bokPris INT,
+	PRIMARY KEY (bokId)
+);
+
+-- Fyll tabellen med lite data
+INSERT INTO bok ( bokTitel, bokForfattare, bokBeskrivn, bokIsbn, bokPris)
+VALUES('Röda rummet','Strindberg', 'August','12345','120');
+
+INSERT INTO bok (bokTitel, bokForfattare, bokBeskrivn, bokIsbn, bokPris)
+VALUES ('Test','Caroll, Lewiss','Alice i underlain', '150', 90);
+
+INSERT INTO bok (bokTitel, bokForfattare, bokBeskrivn, bokIsbn, bokPris)
+VALUES ('Test3', 'Lindgre,Astrid', 'Vi på salkråkan', '160', 80);
+
+SELECT  * FROM bok;
+SELECT bokTitel, bokForfattare From bok;
+SELECT DISTINCT bokTitel FROM bok;
+SELECT * FROM bok WHERE bokTitel = 'Röda rummet';
+SELECT * FROM bok WHERE bokId = 1;
+SELECT * FROM bok WHERE bokTitel LIKE 'R%';
+SELECT * FROM bok WHERE bokTitel = 'RÖDA rummet' AND bokForfattare = 'Strindberg, August';
+SELECT * FROM bok WHERE bokPris > 100;
+SELECT * FROm bok ORDER BY bokTitel ASC;
+SELECT * FROM bok ORDER BY bokTitel DESC;
+SELECT * FROM bok ORDER BY bokTitel, bokForfattare;
+
+
+UPDATE  bok SET bokTitel = 'Röda rummet',
+                bokForfattare = 'August Strindberg'
+WHERE bokID = 1;
+
+SELECT * FROM bok;
+
+INSERT INTO bok (bokTitel, bokForfattare)
+VALUES ('Jazz i Göteborg', 'Rune Johansson');
+
+SELECT * FROM bok;
+
+DELETE FROM bok WHERE bokId = 2;
+DELETE FROM bok WHERE bokId = 3;
+
+SELECT * FROM bok;
+
+SELECT * FROM BOK
+WHERE bokPris BETWEEN 50 AND 100;
+
+SELECT * FROM bok
+WHERE bokPris NOT BETWEEN  10 AND 40;
+
+SELECT * FROM bok WHERE bokTitel IS NULL;
+SELECT * FROM bok WHERE bokTitel IS NOT NULL;
+
+
+CREATE TABLE bok (
+  bokId INT NOT NULL,
+  bokTitle VARCHAR(255),
+  bokForfattare VARCHAR(255),
+
+);
+
+ALTER TABLE bok ADD bokLsbn VARCHAR(50);
+
+SELECT * FROM bok;
+
+DROP TABLE bok;
+SELECT * FROM bok;
+

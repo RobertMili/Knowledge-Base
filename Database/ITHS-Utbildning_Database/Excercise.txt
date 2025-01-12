@@ -1,0 +1,144 @@
+CREATE DATABASE uppgifter;
+USE uppgifter;
+
+CREATE TABLE uppgifter
+(
+    ArtikelNummber INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    Fabrikat       TEXT,
+    Processorty    TEXT,
+    HastighetGHX   DOUBLE,
+    RAM            TEXT,
+    Hårddisktorlek TEXT
+);
+
+INSERT INTO uppgifter(Fabrikat, Processorty, HastighetGHX, RAM, Hårddisktorlek)
+VALUES ('Intel', 'Intel i7', '5.40', '16Gb', '256');
+
+INSERT INTO uppgifter(Fabrikat, Processorty, HastighetGHX, RAM, Hårddisktorlek)
+VALUES ('Apple', 'M1 Pro chip', '8.0', '16GB', '512');
+
+
+SELECT *
+FROM uppgifter;
+
+DROP TABLE uppgifter;
+
+SELECT *
+FROM uppgifter;
+
+-- Exercise 3:
+SELECT *
+FROM uppgifter
+WHERE RAM > 4;
+
+SELECT *
+FROM uppgifter
+WHERE RAM < 4;
+
+-- Exercise 4:
+
+CREATE TABLE skivor
+(
+    cdId     INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    artis    TEXT,
+    nameCD   TEXT,
+    price    INT,
+    yearOfCD TEXT,
+    soldCD   INT
+);
+
+INSERT INTO skivor(artis, nameCD, price, yearOfCD, soldCD)
+VALUES ('ABBA', 'ABBA Gold', '500', '1992', '375');
+
+INSERT INTO skivor(artis, nameCD, price, yearOfCD, soldCD)
+VALUES ('Ace of Base', 'ALl that she wants', '1092', '1992', '40');
+
+INSERT INTO skivor (artis, nameCD, price, yearOfCD, soldCD)
+VALUES ('AVicii', 'True', '128', '2013', '5');
+
+SELECT *
+FROM skivor;
+
+DROP TABLE skivor;
+
+-- Exercise 5
+
+SELECT *
+FROM skivor
+WHERE artis = 'abba';
+
+-- Exercise 6
+SELECT *
+FROM skivor
+WHERE artis = 'avicii'
+  AND yearOfCD > 2008;
+
+-- Exercise 7
+
+INSERT INTO skivor(artis, nameCD, price, yearOfCD, soldCD)
+VALUES ('Robert Milicevic', 'The SQL Song', '100', '2022', '50');
+
+USE uppgifter;
+SELECT *
+FROM skivor;
+
+-- Exerciser 8
+
+CREATE TABLE anställda
+(
+    anställID       INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nameOfAnställda TEXT,
+    salary          INT,
+    postion         TEXT,
+    yearOfWorking   INT
+);
+
+
+INSERT INTO anställda(NAMEOFANSTÄLLDA, SALARY, POSTION, YEAROFWORKING)
+VALUES ('Robert', 1000, 'Chef', 5);
+
+INSERT INTO anställda(nameOfAnställda, salary, postion, yearOfWorking)
+VALUES ('Vanja', 900, 'Under chef', 4);
+
+SELECT *
+FROM anställda;
+DROP TABLE anställda;
+
+-- Exerciser 9
+SELECT *
+FROM anställda
+ORDER BY anställID DESC;
+
+-- Exerciser 10
+INSERT INTO anställda(nameOfAnställda, salary, postion, yearOfWorking)
+VALUES ('Alma', 800, 'Försäljare', 3);
+
+-- Exerciser 11
+ALTER TABLE anställda
+    ADD place TEXT;
+
+SELECT *
+FROM anställda;
+
+UPDATE anställda
+SET place = 'Göteborg'
+WHERE anställID = 1;
+
+UPDATE anställda SET postion = 'Under Chef'
+WHERE anställID = 2;
+
+UPDATE anställda SET postion = 'Försäljare '
+WHERE anställID = 3;
+
+SELECT *
+FROM anställda
+WHERE place = 'Göteborg';
+
+-- Exerciser 12
+UPDATE anställda
+SET place = 'Malmö'
+WHERE postion = 'Chef';
+
+-- Exerciser 13
+INSERT INTO anställda(nameOfAnställda, salary, postion, yearOfWorking)
+VALUES ('Alma', 800, 'Försäljare', 2);

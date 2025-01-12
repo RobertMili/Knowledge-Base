@@ -1,0 +1,31 @@
+--------------------------------------------------------------------------
+-- Skapar en enkel view som visar böcker som kostar mindre än 100 kr
+CREATE VIEW viewBokrea AS
+SELECT bokTitel,bokForfattare, bokPris
+FROM bok
+WHERE bokPris < 100;
+
+-- SQL för att visa view
+SELECT * FROM viewBokrea;
+
+-- Raderar en view
+DROP VIEW viewBokrea;
+--------------------------------------------------------------------------
+
+--------------------------------------------------------------------------
+-- Skapar en view som räknar ut medelvärdet på alla böcker som tillhör kategorin Biografier
+CREATE VIEW viewBokCatAvg AS
+SELECT AVG(bok.bokPris) AS bokPrisAvg, kategori.kategoriNamn
+FROM kategori
+INNER JOIN bok
+ON kategori.kategoriId = bok.bokKategoriId
+GROUP BY kategori.kategoriNamn
+HAVING kategori.kategoriNamn = 'Biografi';
+
+-- SQL för att visa en view
+SELECT * FROM viewBokCatAvg;
+
+-- Raderar en view
+DROP VIEW viewBokCatAvg;
+-----------------------------------------------------------------------
+------------------------------------------------------------------------

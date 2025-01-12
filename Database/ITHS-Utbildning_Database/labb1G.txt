@@ -1,0 +1,48 @@
+CREATE DATABASE labb1;
+
+USE labb1;
+CREATE TABLE dealer_House
+(
+    dealer_house_id    INT NOT NULL AUTO_INCREMENT,
+    dealer_house_name  TEXT,
+    dealer_house_place TEXT,
+    PRIMARY KEY (dealer_house_id)
+
+);
+
+CREATE TABLE houseCustomer(
+    houseCustomer_ID_PK INT NOT NULL AUTO_INCREMENT,
+    house_ID_FK INT,
+    customer_ID_FK INT,
+    PRIMARY KEY (houseCustomer_ID_PK),
+    FOREIGN KEY (house_ID_FK) REFERENCES dealer_House (dealer_house_id),
+    FOREIGN KEY (customer_ID_FK) REFERENCES customer(customer_ID_PK)
+);
+
+CREATE TABLE Customer(
+    customer_ID_PK INT NOT NULL AUTO_INCREMENT,
+    customer_name TEXT,
+    customer_place TEXT,
+    PRIMARY KEY (customer_ID_PK)
+);
+
+INSERT INTO dealer_House(dealer_house_name, dealer_house_place)
+VALUES ('Heden bil Göteborg','Göteborg');
+
+INSERT INTO customer(customer_name, customer_place)
+VALUES ('Vanja','Göteborg');
+
+
+SELECT * FROM dealer_House;
+SELECT * FROM customer;
+SELECT * FROM houseCustomer;
+
+
+
+INSERT INTO houseCustomer(house_ID_FK, customer_ID_FK)
+VALUES (1,1); -- Hedin Göteborg, Vanja Göteborg
+
+SELECT customer.customer_name , customer.customer_place, dealer_house.dealer_house_name
+FROM dealer_House
+INNER JOIN houseCustomer ON dealer_House.dealer_house_id = houseCustomer.house_ID_FK
+INNER JOIN customer on houseCustomer.customer_ID_FK = Customer.customer_ID_PK;

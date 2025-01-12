@@ -1,0 +1,97 @@
+CREATE DATABASE fotball;
+
+CREATE TABLE medlem
+(
+    medlemId       INT NOT NULL AUTO_INCREMENT,
+    medlemNamn     TEXT,
+    meldemADress   TEXT,
+    medlemFödd     INT,
+    medlemAntalmål INT,
+    medlmemMatchID INT,
+    PRIMARY KEY (medlemId)
+);
+
+CREATE TABLE fotballsMatch
+(
+    fotbollsMatchID           INT NOT NULL AUTO_INCREMENT,
+    fotbollsMatchMotsandaralg TEXT,
+    fotbollsMatchResultat     TEXT,
+    fotbollsMatchPLan         TEXT,
+    PRIMARY KEY (fotbollsMatchID)
+);
+CREATE TABLE medlemFotballsMatch
+(
+    medlemFotballsMatchID  INT NOT NULL AUTO_INCREMENT,
+    medlemFotballsMatchMid INT,
+    medlemFotballsMatchFid INT,
+    PRIMARY KEY (medlemFotballsMatchID),
+    FOREIGN KEY (medlemFotballsMatchMid) REFERENCES medlem (medlemId),
+    FOREIGN KEY (medlemFotballsMatchFid) REFERENCES fotballsMatch (fotbollsMatchID)
+);
+DROP TABLE medlem;
+
+INSERT INTO medlem(medlemNamn, meldemADress, medlemFödd, medlemAntalmål, medlmemMatchID)
+VALUES ('Kalle Karslsson', 'Vägen 1 421 34 Göteborg', 2001, 4, 1),
+       ('Sara Persson', 'Vägen 3 421 36 Göteborg', 2004, 2, 2),
+       ('Pelle Persson', 'Vägen 8 423 45 Götebprg', 2001, 1, 1);
+
+INSERT INTO fotballsMatch(fotbollsMatchMotsandaralg, fotbollsMatchResultat, fotbollsMatchPLan)
+VALUES ('Höjdarna BK', '4-1', 'Ruddalen'),
+       ('Solen BK', '3-2', 'Ullevi');
+
+INSERT INTO medlemFotballsMatch(medlemFotballsMatchMid, medlemFotballsMatchFid)
+VALUES (1, 1); -- Kalle Karlsson, 1
+
+INSERT INTO medlemFotballsMatch(medlemFotballsMatchMid, medlemFotballsMatchFid)
+VALUES (2, 2); -- Sara Persson ,2
+
+INSERT INTO medlemFotballsMatch(medlemFotballsMatchMid, medlemFotballsMatchFid)
+VALUES (2, 1); --  Pelle Persson,1
+
+SELECT *
+FROM medlemFotballsMatch;
+
+SELECT *
+FROM medlem;
+
+SELECT *
+FROM fotballsMatch;
+
+DROP TABLE medlem;
+DROP TABLE fotballsMatch;
+DROP TABLE medlemFotballsMatch;
+
+SELECT *
+FROM medlem
+WHERE medlemFödd > 2001;
+
+SELECT *
+FROM medlem
+WHERE medlemAntalmål > 1;
+
+
+SELECT fotbollsMatchResultat, fotbollsMatchMotsandaralg
+FROM fotballsMatch
+WHERE fotbollsMatchID = 1;
+
+-- SELECT bok_.bokTitel, bok_.bokForfattare, kategori_.kategoriNamn
+-- FROM kategori_
+-- INNER JOIN bokKategori_ ON kategori_.kategoriId = bokKategori_.bokKategoriKid
+-- INNER JOIN bok_ ON bokKategori_.bokKategoriBid = bok_.bokId;
+-- FIXA THIS
+SELECT medlem.medlemNamn,fotballsMatch.fotbollsMatchResultat, fotballsMatch.fotbollsMatchMotsandaralg
+FROM fotballsMatch
+INNER JOIN medlem ON fotballsMatch.fotbollsMatchID = medlem.medlemId;
+
+SELECT *
+FROM medlem;
+SELECT *
+FROM fotballsMatch;
+
+-- SELECT AVG(bokPris) FROM bok_
+
+SELECT AVG(medlemAntalmål) FROM medlem;
+
+SELECT * FROM medlem
+WHERE medlemFödd BETWEEN 1999 AND 2002;
+

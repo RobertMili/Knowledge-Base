@@ -1,0 +1,206 @@
+CREATE DATABASE Labb1_VG;
+
+CREATE TABLE dealer_House
+(
+    dealerHouseID_PK INT NOT NULL AUTO_INCREMENT,
+    dealerHouseName  TEXT,
+    dealerHousePlace TEXT,
+    PRIMARY KEY (dealerHouseID_PK)
+);
+
+CREATE TABLE Dealer
+(
+    dealerID_PK        INT NOT NULL AUTO_INCREMENT,
+    dealerName         TEXT,
+    dealerYearsOfWorks INT,
+    dealerHouse_FK     INT,
+    PRIMARY KEY (dealerID_PK),
+    FOREIGN KEY (dealerHouse_FK) REFERENCES dealer_House (dealerHouseID_PK)
+);
+CREATE TABLE Customer
+(
+    customerID_PK INT NOT NULL AUTO_INCREMENT,
+    customerName  TEXT,
+    customerPlace TEXT,
+    PRIMARY KEY (customerID_PK)
+);
+
+CREATE TABLE Cars
+(
+    carID_PK             INT NOT NULL AUTO_INCREMENT,
+    carModel             TEXT,
+    carRegisteringNumber TEXT,
+    carPlace             TEXT,
+    carsPrice            INT,
+    customer_FK          INT,
+    carsISBN             VARCHAR(50),
+    PRIMARY KEY (carID_PK),
+    FOREIGN KEY (customer_FK) REFERENCES Customer (customerID_PK)
+);
+
+CREATE TABLE dealerCars
+(
+    dealerCarsID_PK     INT NOT NULL AUTO_INCREMENT,
+    dealerCarsDealer_FK INT,
+    dealerCarsCars_FK   INT,
+    PRIMARY KEY (dealerCarsID_PK),
+    FOREIGN KEY (dealerCarsDealer_FK) REFERENCES Dealer (dealerID_PK),
+    FOREIGN KEY (dealerCarsCars_FK) REFERENCES Cars (carID_PK)
+);
+
+CREATE UNIQUE INDEX index_isbn ON cars (carsISBN);
+
+INSERT INTO dealer_House(dealerHouseName, dealerHousePlace)
+VALUES ('Hedin bil Göteborg', 'Göteborg'),
+       ('Hedin bil Stockholm', 'Stockholm');
+
+INSERT INTO dealer(dealerName, dealerYearsOfWorks, dealerHouse_FK)
+VALUES ('Robert Milicevic', 5, 1),
+       ('Vanja Maric', 3, 2);
+
+INSERT INTO customer(customerName, customerPlace)
+VALUES ('William Svenson', 'Göteborg'),
+       ('Calle Carslon', 'Göteborg'),
+       ('Phillip Andresson', 'Stockholm');
+
+INSERT INTO cars(carModel, carRegisteringNumber, carPlace, carsPrice, customer_FK, carsISBN)
+VALUES ('Volvo', '123-A-456', 'Stockholm', 10000, 1,
+        (SELECT dealerID_PK FROM dealer WHERE dealerID_PK = 'Robert Milicevic')),
+       ('BMW', '321-A-654', 'Stockholm', 20000, 2,
+        (SELECT dealerID_PK FROM dealer WHERE dealerName = 'Robert Milicevic')),
+       ('Audi', '231-W-322', 'Stockholm', 30000, 1,
+        (SELECT dealerID_PK FROM dealer WHERE dealerName = 'Robert Milicevic')),
+       ('Volvo', '435-W-456', 'Göteborg', 40000, 2,
+        (SELECT dealerID_PK FROM dealer WHERE dealerName = 'Vanja Maric')),
+       ('BMW', '093-D-456', 'Göteborg', 50000, 1,
+        (SELECT dealerID_PK FROM dealer WHERE dealerName = 'Vanja Maric')),
+       ('Audi', '543-W-123', 'Göteborg', 60000, 2,
+        (SELECT dealerID_PK FROM dealer WHERE dealerName = 'Vanja Maric')),
+       ('Audi', NULL, 'Göteborg', 70000, 1,
+        (SELECT dealerID_PK FROM dealer WHERE dealerName = 'Vanja Maric')),
+       ('Hyundai', NULL, 'Göteborg', 80000, 3,
+        (SELECT dealerID_PK FROM dealer WHERE dealerName = 'Vanja Maric'));
+
+
+INSERT INTO dealerCars(dealerCarsDealer_FK, dealerCarsCars_FK)
+VALUES (1, 1); -- Robert Milicevic, volvo
+INSERT INTO dealerCars(dealerCarsDealer_FK, dealerCarsCars_FK)
+VALUES (2, 1); -- Robert Milicevic, BMW
+INSERT INTO dealerCars(dealerCarsDealer_FK, dealerCarsCars_FK)
+VALUES (2, 2);-- Vanja Maric, Audi
+
+
+SELECT *
+FROM dealer_House;
+SELECT *
+FROM dealer;
+SELECT *
+FROM dealerCars;
+SELECT *
+FROM cars;
+SELECT *
+FROM customer;
+
+DELETE
+FROM Dealer
+WHERE dealerID_PK = 4;
+
+DROP TABLE dealerCars;
+DROP TABLE cars;
+DROP TABLE dealer;
+DROP TABLE dealer_House;
+DROP TABLE Customer;
+
+
+-- Print out from smallest number to highest number
+SELECT *
+FROM cars
+ORDER BY cars.carRegisteringNumber;
+
+-- Selected row wich regisreting numbers is null
+SELECT *
+FROM cars
+WHERE carRegisteringNumber IS NULL;
+
+-- Selected smallest registering number
+SELECT MIN(carRegisteringNumber)
+FROM cars;
+
+-- Selected max regsitering number
+SELECT MAX(carRegisteringNumber)
+FROM cars;
+
+-- Select how much cars are in Stockholm
+SELECT COUNT(*)
+FROM cars
+WHERE carPlace = 'Stockholm';
+
+-- Sum of tables numbers
+SELECT SUM(carsPrice)
+FROM cars;
+
+-- Average number
+SELECT AVG(carsPrice)
+FROM cars;
+
+-- cars column stats with the letter v
+SELECT *
+FROM cars
+WHERE carModel LIKE 'V%';
+
+-- cars column ends with letter i
+SELECT *
+FROM cars
+WHERE carModel LIKE '%i';
+
+-- cars contains the letter i namn
+SELECT *
+FROM cars
+WHERE carModel LIKE '%i';
+
+-- cars does not start with the letter a
+SELECT *
+FROM cars
+WHERE carModel NOT LIKE 'A%';
+
+-- cars with second letter a i name
+SELECT *
+FROM cars
+WHERE carModel LIKE '_O%';
+
+-- Selected cars between 2 and 4
+SELECT *
+FROM cars
+WHERE carID_PK BETWEEN 2 AND 5;
+
+-- Delete with select registering number
+DELETE
+FROM cars
+WHERE carRegisteringNumber = '543-W-123';
+
+-- Update car with select number till new  registering number
+UPDATE cars
+SET carRegisteringNumber = '000-W-000'
+WHERE carID_PK = 2;
+
+SELECT *
+FROM cars;
+
+-- koppling
+
+SELECT dealerHouse_FK
+FROM dealer
+         INNER JOIN dealer_House ON dealer_House.dealerHouseID_PK = Dealer.dealerHouse_FK;
+
+SELECT dealerCarsDealer_FK
+FROM dealerCars
+         INNER JOIN Dealer ON Dealer.dealerID_PK = dealerCars.dealerCarsDealer_FK;
+
+SELECT dealerCarsCars_FK
+FROM dealerCars
+         INNER JOIN Cars ON Cars.carID_PK = dealerCars.dealerCarsCars_FK;
+
+SELECT customer_FK
+FROM Cars
+         INNER JOIN customer ON Cars.customer_FK = Customer.customerID_PK;
+

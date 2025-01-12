@@ -1,0 +1,145 @@
+USE demo;
+
+CREATE DATABASE Hotel;
+
+CREATE TABLE hotel (
+    hotelNo INT PRIMARY KEY,
+    hotelName VARCHAR(255),
+    hotelRating DECIMAL(3,2),
+    hotelAddress VARCHAR(255),
+    hotelCity VARCHAR(255),
+    numRoom INT
+);
+
+INSERT INTO hotel (hotelNo, hotelName, hotelRating, hotelAddress, hotelCity, numRoom) VALUES
+(1, 'Hotel One', 4.5, '123 One Street', 'City One', 100),
+(2, 'Hotel Two', 4.2, '456 Two Avenue', 'City Two', 200),
+(3, 'Hotel Three', 3.9, '789 Three Boulevard', 'City Three', 300),
+(4, 'Hotel Four', 4.7, '321 Four Drive', 'City Four', 400),
+(5, 'Hotel Five', 4.3, '654 Five Lane', 'City Five', 500),
+(6, 'Hotel Six', 4.8, '123 Six Street', 'Stockholm', 600),
+(7, 'Hotel Seven', 4.6, '456 Seven Avenue', 'Stockholm', 700),
+(8, 'Hotel Eight', 4.4, '789 Eight Boulevard', 'Stockholm', 800),
+(9, 'Hotel Nine', 4.2, '321 Nine Drive', 'Stockholm', 900),
+(10, 'Hotel Ten', 4.0, '654 Ten Lane', 'Stockholm', 1000),
+(11, 'Hotel Eleven', 3.5, '111 Eleven Street', 'Stockholm', 1100),
+(12, 'Hotel Twelve', 3.7, '222 Twelve Avenue', 'Stockholm', 1200),
+(13, 'Hotel Thirteen', 4.1, '333 Thirteen Boulevard', 'Stockholm', 1300),
+(14, 'Hotel Fourteen', 4.5, '444 Fourteen Drive', 'Stockholm', 1400),
+(15, 'Hotel Fifteen', 3.9, '555 Fifteen Lane', 'Stockholm', 1500),
+(16, 'Scandic', 3.5, '111 Eleven Street', 'Stockholm', 1100),
+(17, 'Hotel FiveStar1', 5, '222 TwentyTwo Street', 'Stockholm', 1200),
+(18, 'Hotel FiveStar2', 5, '333 ThirtyThree Street', 'Gothenburg', 1300),
+(19, 'Hotel FiveStar3', 5, '444 FortyFour Street', 'Stockholm', 1400),
+(20, 'Hotel FiveStar4', 5, '555 FiftyFive Street', 'Gothenburg', 1500);
+
+CREATE DATABASE Room;
+
+USE Room;
+
+CREATE TABLE rooms (
+    roomNo INT PRIMARY KEY,
+    hotelNo INT,
+    roomPrice DECIMAL(10,2),
+    roomCapacity INT
+);
+
+INSERT INTO rooms (roomNo, hotelNo, roomPrice, roomCapacity) VALUES
+(101, 1, 100.00, 2),
+(102, 1, 150.00, 3),
+(201, 2, 200.00, 4),
+(202, 2, 250.00, 5),
+(1101, 11, 8000.00, 4),
+(1201, 12, 9000.00, 4),
+(1301, 13, 7000.00, 4),
+(1401, 14, 9500.00, 4),
+(1501, 15, 8500.00, 4);
+
+
+CREATE DATABASE Booking;
+
+USE Booking;
+
+CREATE TABLE bookings (
+    bookingNo INT PRIMARY KEY,
+    hotelNo INT,
+    guestNo INT,
+    checkinDate DATE,
+    checkOutDate DATE,
+    roomNo INT
+);
+
+INSERT INTO bookings (bookingNo, hotelNo, guestNo, checkinDate, checkOutDate, roomNo) VALUES
+(1, 1, 1, '2022-01-01', '2022-01-10', 101),
+(2, 1, 2, '2022-02-01', '2022-02-10', 102),
+(3, 2, 3, '2022-03-01', '2022-03-10', 201),
+(4, 2, 4, '2022-04-01', '2022-04-10', 202),
+(5, 1, 5, '2022-07-01', '2022-07-10', 103),
+(6, 1, 6, '2022-07-02', '2022-07-12', 104),
+(7, 2, 7, '2022-07-03', '2022-07-13', 202),
+(8, 2, 8, '2022-07-04', '2022-07-14', 203),
+(9, 16, 9, '2022-08-01', '2022-08-10', 1601),
+(10, 16, 10, '2022-08-02', '2022-08-12', 1602),
+(11, 16, 11, '2022-08-03', '2022-08-13', 1603),
+(12, 16, 12, '2022-08-04', '2022-08-14', 1604);
+
+
+CREATE DATABASE Guest;
+
+USE Guest;
+
+CREATE TABLE guests (
+    guestNo INT PRIMARY KEY,
+    firstName VARCHAR(255),
+    lastName VARCHAR(255),
+    guestAddress VARCHAR(255)
+);
+
+
+INSERT INTO guests (guestNo, firstName, lastName, guestAddress) VALUES
+(1, 'John', 'Doe', '123 Main St'),
+(2, 'Jane', 'Doe', '456 Maple Dr'),
+(3, 'Jim', 'Smith', '789 Oak Ave'),
+(4, 'Jill', 'Johnson', '321 Pine Ln');
+
+-- 1.
+SELECT * FROM hotel;
+
+-- 2
+SELECT * FROM hotel
+WHERE hotelCity = 'Stockholm'
+ORDER BY hotelRating DESC;
+
+-- 3
+SELECT h.hotelNo, h.hotelName, h.hotelRating, h.hotelAddress, h.hotelCity, h.numRoom, r.roomNo, r.roomPrice, r.roomCapacity
+FROM hotel h
+JOIN rooms r ON h.hotelNo = r.hotelNo
+WHERE h.hotelCity = 'Stockholm' AND h.hotelRating >= 3 AND r.roomCapacity = 4 AND r.roomPrice BETWEEN 6000 AND 10000;
+
+-- 4
+SELECT h.hotelName, MAX(r.roomPrice) as MostExpensiveRoom
+FROM hotel h
+JOIN rooms r ON h.hotelNo = r.hotelNo
+GROUP BY h.hotelName
+ORDER BY MostExpensiveRoom DESC;
+
+-- 5
+SELECT h.hotelName, COUNT(b.roomNo) as NumberOfRoomsBooked
+FROM hotel h
+JOIN bookings b ON h.hotelNo = b.hotelNo
+WHERE MONTH(b.checkinDate) = 7
+GROUP BY h.hotelName;
+
+-- 6
+SELECT b.bookingNo, b.hotelNo, b.guestNo, b.checkinDate, b.checkOutDate, b.roomNo
+FROM hotel h
+JOIN bookings b ON h.hotelNo = b.hotelNo
+WHERE MONTH(b.checkinDate) = 8 AND h.hotelName = 'Scandic';
+
+-- 7
+SELECT hotelCity, COUNT(*) as NumberOfFiveStarHotels
+FROM hotel
+WHERE hotelRating = 5
+GROUP BY hotelCity;
+
+

@@ -1,0 +1,72 @@
+-- Bok (version 1)
+CREATE TABLE bok(
+	bokId INTEGER PRIMARY KEY,
+	bokTitel TEXT,
+	bokForfattare TEXT,
+	bokBeskrivn TEXT,
+	bokIsbn TEXT,
+	bokPris REAL
+);
+
+-- Fyll tabellen med lite data
+INSERT INTO bok (bokTitel,bokForfattare,bokIsbn,bokPris) VALUES('Röda rummet','Strindberg, August','12345','120');
+ 
+SELECT * FROM bok;
+
+
+-- Bok och kategori (version 2)
+CREATE TABLE kategori(
+	kategoriId INTEGER PRIMARY KEY,
+	kategoriNamn TEXT
+);
+CREATE TABLE bok(
+	bokId INTEGER PRIMARY KEY,
+	bokTitel TEXT,
+	bokForfattare TEXT,
+	bokBeskrivn TEXT,
+	bokIsbn TEXT,
+	bokPris REAL,
+    bokKategoriId INT
+);
+
+-- Fyll tabellerna med lite data
+INSERT INTO kategori(kategoriNamn) VALUES('Roman');
+
+INSERT INTO bok (bokTitel,bokForfattare,bokIsbn,bokPris,bokKategoriId) VALUES('Röda rummet','Strindberg, August','12345','120',1);
+ 
+SELECT * FROM kategori INNER JOIN bok ON kategori.kategoriId = bok.bokKategoriId;
+
+
+-- Bok, kategori och bokKategori (version 3)
+CREATE TABLE kategori(
+	kategoriId INTEGER PRIMARY KEY,
+	kategoriNamn TEXT
+);
+CREATE TABLE bok(
+	bokId INTEGER PRIMARY KEY,
+	bokTitel TEXT,
+	bokForfattare TEXT,
+	bokBeskrivn TEXT,
+	bokIsbn TEXT,
+	bokPris REAL
+);
+CREATE TABLE bokKategori(
+	bokKategoriId INTEGER PRIMARY KEY,
+	bokKategoriBid INT,
+	bokKategoriKid INT
+);
+
+-- Fyll tabellerna med lite data
+INSERT INTO kategori(kategoriNamn) VALUES('Roman');
+
+INSERT INTO bok (bokTitel,bokForfattare,bokIsbn,bokPris) VALUES('Röda rummet','Strindberg, August','12345','120');
+
+INSERT INTO bokKategori (bokKategoriBid,bokKategoriKid) VALUES(1,1);
+
+SELECT bok.bokTitel, kategori.kategoriNamn
+FROM kategori INNER JOIN bokKategori 
+ON kategori.kategoriId = bokKategori.bokKategoriKid
+INNER JOIN bok 
+ON bokKategori.bokKategoriBid = bok.bokId;
+
+

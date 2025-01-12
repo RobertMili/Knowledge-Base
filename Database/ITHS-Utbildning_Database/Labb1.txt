@@ -1,0 +1,161 @@
+CREATE TABLE dealer_House
+(
+    car_id    INT NOT NULL PRIMARY KEY,
+    deal_name TEXT,
+    car_place TEXT
+
+);
+
+INSERT INTO dealer_House(car_id, deal_name, car_place)
+VALUES (1, 'Hedin bil Stockholm', 'Stockholm');
+
+INSERT INTO dealer_House(car_id, deal_name, car_place)
+VALUES (2, 'Hedin bil Götebor', 'Göteborg');
+
+SELECT *
+FROM dealer_House;
+
+DROP TABLE dealer_House;
+
+CREATE TABLE cars
+(
+    car_id                 INT NOT NULL,
+    car_model              TEXT,
+    car_registering_number TEXT,
+    car_place              TEXT,
+    car_selling_number     INT,
+    car_dealers_number     INT
+);
+
+INSERT INTO cars(car_id, car_model, car_registering_number, car_place, car_selling_number, car_dealers_number)
+VALUES (1, 'Volvo', '123-A-456', 'Stockholm', 1, 123),
+       (2, 'BMW', '321-A-654', 'Stockholm', 1, 123),
+       (3, 'Audi', '231-W-322', 'Stockholm', 1, 123),
+       (4, 'Volvo', '435-W-456', 'Göteborg', 2, 321)
+       (5, 'BMW', '093-D-456', 'Göteborg', 2, 321),
+       (6, 'Audi', '543-W-123', 'Göteborg', 2, 321),
+       (7, 'Audi', NULL, 'Göteborg', 2, 321),
+       (8, 'Hyundai', NULL, 'Göteborg', 2, 321);
+
+SELECT *
+FROM cars;
+
+DELETE
+FROM cars
+WHERE car_id = 6;
+
+-- Print out from smallest number to highest number
+SELECT *
+FROM cars
+ORDER BY cars.car_registering_number;
+
+-- Selected row wich regisreting numbers is null
+SELECT *
+FROM cars
+WHERE car_registering_number IS NULL;
+
+-- Selected smallest registering number
+SELECT MIN(car_registering_number)
+FROM cars;
+
+-- Selected max id number
+SELECT MAX(car_id)
+FROM cars;
+
+-- Select how much 123 have in cars tabel
+SELECT COUNT(*)
+FROM cars
+WHERE car_dealers_number = 123;
+
+-- Sum of tables numbers
+SELECT SUM(car_selling_number)
+FROM cars;
+
+-- Average number
+SELECT AVG(car_id)
+FROM cars;
+
+-- cars column stats with the letter v
+SELECT *
+FROM cars
+WHERE car_model LIKE 'V%';
+
+-- cars column ends with letter i
+SELECT *
+FROM cars
+WHERE car_model LIKE '%i';
+
+-- cars contains the letter i namn
+SELECT *
+FROM cars
+WHERE car_model LIKE '%i%';
+
+-- cars does not start with the letter a
+SELECT *
+FROM cars
+WHERE car_model NOT LIKE 'A%';
+
+-- cars with second letter a i name
+SELECT *
+FROM cars
+WHERE car_model LIKE '_O%';
+
+-- Selected cars between 2 and 4
+SELECT *
+FROM cars
+WHERE car_id BETWEEN 2 AND 6;
+
+-- Delete table
+DROP TABLE cars;
+
+DELETE
+FROM cars
+WHERE car_registering_number = '543-W-123';
+
+-- Update car with registering number
+UPDATE cars
+SET car_registering_number = '000-W-000'
+WHERE car_selling_number = 2;
+
+
+SELECT car_id
+FROM cars;
+
+
+-- connect tables
+SELECT car_selling_number
+FROM cars
+         INNER JOIN dealer_House ON dealer_House.car_id = cars.car_selling_number;
+
+
+CREATE TABLE dealer
+(
+    dealers_id            INT NOT NULL,
+    dealers_name          TEXT,
+    dealers_years_working INT,
+    car_dealer_number     INT
+);
+
+
+INSERT INTO dealer (DEALERS_ID, DEALERS_NAME, DEALERS_YEARS_WORKING, car_dealer_number)
+VALUES (1, 'Robert', 5, 123),
+       (2, 'Vanja', 3, 321);
+
+SELECT *
+FROM dealer;
+
+DROP TABLE dealer;
+
+SELECT cars.car_dealers_number
+FROM cars
+         INNER JOIN dealer ON dealer.car_dealer_number = cars.car_dealers_number;
+
+SELECT *
+FROM cars
+         INNER JOIN dealer
+                    ON cars.car_dealers_number = dealer.car_dealer_number;
+
+SELECT *
+FROM cars
+         RIGHT JOIN dealer
+                    ON cars.car_dealers_number = dealer.car_dealer_number;

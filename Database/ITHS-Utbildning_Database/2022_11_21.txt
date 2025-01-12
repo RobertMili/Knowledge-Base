@@ -1,0 +1,33 @@
+CREATE DATABASE 2022_11_21;
+
+
+-- Bok och kategori (version 2)
+CREATE TABLE kategori1
+(
+    kategoriId   INT NOT NULL AUTO_INCREMENT,
+    kategoriNamn VARCHAR(50),
+    PRIMARY KEY (kategoriId)
+);
+CREATE TABLE bok1
+(
+    bokId         INT NOT NULL AUTO_INCREMENT,
+    bokTitel      VARCHAR(50),
+    bokForfattare VARCHAR(50),
+    bokBeskrivn   VARCHAR(50),
+    bokIsbn       VARCHAR(50),
+    bokPris       INT,
+    bokKategoriId INT,
+    PRIMARY KEY (bokId),
+    FOREIGN KEY (bokKategoriId) REFERENCES kategori1 (kategoriId)
+);
+
+-- Fyll tabellerna med lite data
+INSERT INTO kategori1(kategoriNamn)
+VALUES ('Roman');
+
+INSERT INTO bok1 (bokTitel, bokForfattare, bokIsbn, bokPris, bokKategoriId)
+VALUES ('Röda rummet', 'Strindberg, August', '12345', '120', 1);
+
+SELECT *
+FROM kategori1
+         INNER JOIN bok1 ON kategori1.kategoriId = bok1.bokKategoriId;
