@@ -1,0 +1,12 @@
+kubectl apply -f ./deployexampel.yaml
+
+kubectl delete -f ./deployexampel.yaml
+
+
+kubectl scale --replicas=3 deployment/spring-app
+
+minikube image build -t third-image -f ./Dockerfile . -> bygga image i kubernet NOT docker
+
+kubectl rollout undo deployments/spring-app
+kubectl rollout history deployment spring-app
+
