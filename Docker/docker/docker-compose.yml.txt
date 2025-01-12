@@ -1,0 +1,54 @@
+#version: '3.8'
+#services:
+#  app:
+#    build:
+#      context: .
+#    container_name: test
+#    depends_on:
+#      mysqlserver:
+#        condition: service_healthy
+#      rabbitMQ:
+#        condition: service_healthy
+#    environment:
+#      DB_URL: mysqlserver:3307/demo
+#      DB_USER: developer
+#      DB_PASS: password
+#      RABBIT_HOST: localhost
+#      RABBIT_PORT: 5673
+#      RABBIT_USERNAME: guest
+#      RABBIT_PASSWORD: guest
+#    ports:
+#      - "8080:8080"
+#    restart: on-failure
+#
+#
+#  mysqlserver:
+#    image: 'mysql:latest'
+#    container_name: ${DB_URL}
+#    volumes:
+#      - db:/var/lib/mysql
+#    environment:
+#      MYSQL_DATABASE: demo
+#      MYSQL_USER: developer
+#      MYSQL_PASSWORD: password
+#    ports:
+#      - "3306:3306"
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 3
+#
+#  rabbitMQ:
+#    image: 'rabbitmq:3-management'
+#    container_name: QueueRabbitMQ
+#    ports:
+#      - "15672:15672"
+#      - "5672:5672"
+#    healthcheck:
+#      test: [ "CMD", "rabbitmqctl", "status" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 3
+#volumes:
+#  db:

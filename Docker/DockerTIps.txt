@@ -1,0 +1,16 @@
+docker build -t spring-app:1.0 .
+
+docker run -p 8080:8080 spring-app:1.0
+
+
+docker stop $(docker ps -q) -> stop all dockers image
+
+
+kill port :
+	sudo lsof -i :<port_number>
+	sudo kill <PID>
+
+
+
+buidl image:
+	docker build -t your-image-name:tag .

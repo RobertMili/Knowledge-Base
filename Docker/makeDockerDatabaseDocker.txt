@@ -1,0 +1,10 @@
+docker run -d -p 27017:27017 --name mongotest mongo:latest
+docker pull mongo
+docker pull mysql
+docker run --name mysqltest -e MYSQL_ROOT_PASSWORD=secret-pw -e 'MYSQL_ROOT_HOST=%' -e MYSQL_DATABASE=demo -e MYSQL_USER=developer -e MYSQL_PASSWORD=password -p 3306:3306 mysql:latest
+docker pull rabbitmq
+docker run -d --name rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+docker run -d --name BoostApp -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres
+
+docker run --name swetugg -e MYSQL_ROOT_PASSWORD=swetugg -e 'MYSQL_ROOT_HOST=%' -e MYSQL_DATABASE=swetugg -e MYSQL_USER=developer -e MYSQL_PASSWORD=swetugg -p 3306:3306 swetugg
+
