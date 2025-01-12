@@ -1,0 +1,15 @@
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/bin/Debug/net6.0/ClassDesignCase
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/bin/Debug/net6.0/ClassDesignCase.deps.json
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/bin/Debug/net6.0/ClassDesignCase.runtimeconfig.json
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/bin/Debug/net6.0/ClassDesignCase.dll
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/bin/Debug/net6.0/ClassDesignCase.pdb
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/obj/Debug/net6.0/ClassDesignCase.csproj.AssemblyReference.cache
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/obj/Debug/net6.0/ClassDesignCase.GeneratedMSBuildEditorConfig.editorconfig
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/obj/Debug/net6.0/ClassDesignCase.AssemblyInfoInputs.cache
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/obj/Debug/net6.0/ClassDesignCase.AssemblyInfo.cs
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/obj/Debug/net6.0/ClassDesignCase.csproj.CoreCompileInputs.cache
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/obj/Debug/net6.0/ClassDesignCase.dll
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/obj/Debug/net6.0/refint/ClassDesignCase.dll
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/obj/Debug/net6.0/ClassDesignCase.pdb
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/obj/Debug/net6.0/ClassDesignCase.genruntimeconfig.cache
+/home/robert/Desktop/RiderProject/ClassDesignCase/ClassDesignCase/obj/Debug/net6.0/ref/ClassDesignCase.dll

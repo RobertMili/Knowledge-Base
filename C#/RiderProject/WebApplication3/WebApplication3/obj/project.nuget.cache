@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "fVtFzYNNu+Y=",
+  "success": true,
+  "projectFilePath": "/home/robert/Desktop/RiderProject/WebApplication3/WebApplication3/WebApplication3.csproj",
+  "expectedPackageFiles": [
+    "/home/robert/.nuget/packages/microsoft.dotnet.ilcompiler/8.0.7/microsoft.dotnet.ilcompiler.8.0.7.nupkg.sha512",
+    "/home/robert/.nuget/packages/microsoft.net.illink.tasks/8.0.7/microsoft.net.illink.tasks.8.0.7.nupkg.sha512",
+    "/home/robert/.nuget/packages/runtime.linux-x64.microsoft.dotnet.ilcompiler/8.0.7/runtime.linux-x64.microsoft.dotnet.ilcompiler.8.0.7.nupkg.sha512"
+  ],
+  "logs": []
+}
